@@ -1,0 +1,181 @@
+using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
+using TMPro;
+using UnityEditor;
+
+public class NpcScript : MonoBehaviour
+{
+
+    public Animator NPCanimator;
+    private Collider NPCcollider;
+    private Outline NPCoutline;
+    private bool playerInBoundsToInteract;
+    private Coroutine dialogueCoroutine;
+    public GameObject dialogueGameObject;
+    public TMP_Text speakerText;
+    public TMP_Text dialogueText;
+    public TMP_Text instructionText;
+    private Coroutine typewriterText;
+    private Coroutine sequenceDialogue;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        NPCcollider = GetComponent<Collider>();
+        NPCoutline = GetComponent<Outline>();
+
+        NPCoutline.enabled = false;
+        playerInBoundsToInteract = false;
+
+        dialogueGameObject.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        if (playerInBoundsToInteract == true)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                //Debug.Log("hey kiddo :)");
+                if (dialogueCoroutine == null) {
+                    //dialogueCoroutine = StartCoroutine(PlayDialogue("Dad", "hey kiddo :) you doing okay?", true));
+                    sequenceDialogue = StartCoroutine(SequentialDialogue(new string[] {"Dad", "Heidi"}, new string[] { "hey kiddo :) you doing good?", "yeah! :DDDDD im gonna go play now,"}, true));
+                    NPCanimator.SetTrigger("waving");
+                }
+            }
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "Heidi")
+        {
+            NPCoutline.enabled = true;
+            playerInBoundsToInteract = true;
+            
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name == "Heidi")
+        {
+            NPCoutline.enabled = false;
+            playerInBoundsToInteract = false;
+            if (dialogueCoroutine != null) { 
+                StopCoroutine(dialogueCoroutine);
+                dialogueCoroutine = null;
+                //Debug.Log("[close dialogue");
+                dialogueGameObject.SetActive(false);
+            }
+        }
+    }
+
+    IEnumerator SequentialDialogue(string[] speakerList, string[] dialogueList, bool isEndingDialogueList)
+    {
+        int speakerListLength = speakerList.Length;
+        int dialogueListLength = dialogueList.Length;
+
+        for (int i = 0; i < speakerListLength; i++) {
+            if (dialogueCoroutine != null)
+            {
+                StopCoroutine (dialogueCoroutine);
+                dialogueCoroutine = null;
+            }
+            
+            yield return dialogueCoroutine = StartCoroutine(PlayDialogue(speakerList[i], dialogueList[i], isEndingDialogueList));
+            
+        }
+
+        StopCoroutine(sequenceDialogue);
+        sequenceDialogue = null;
+        yield break;
+
+    }
+
+    IEnumerator PlayDialogue(string speaker, string dialogue, bool isEndingDialogue)
+    {
+        //Debug.Log(dialogue);
+
+        speakerText.text = speaker;
+        dialogueText.text = dialogue;
+
+        if (isEndingDialogue)
+        {
+            instructionText.text = "Click E to continue >>";
+        }
+        else
+        {
+            instructionText.text = "Click E to continue >>";
+        }
+
+        dialogueText.maxVisibleCharacters = 0;
+        dialogueGameObject.SetActive(true);
+        if (typewriterText == null) { 
+        typewriterText = StartCoroutine(TypewriterCoroutine(dialogue));
+        } else
+        {
+
+            StopCoroutine(typewriterText);
+            typewriterText = null;
+            typewriterText = StartCoroutine(TypewriterCoroutine(dialogue));
+        }
+
+            yield return new WaitForSeconds(0.2f);
+        yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.E)) == true);
+        //Debug.Log("[close dialogue]"); // ends the text coroutine too and hides UI
+        if (typewriterText == null) { 
+            dialogueGameObject.SetActive(false);
+            StopCoroutine(dialogueCoroutine);
+            dialogueCoroutine = null;
+            yield break;
+        } else
+        {
+            StopCoroutine(typewriterText);
+            typewriterText = null;
+            dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+
+            yield return new WaitForSeconds(0.2f);
+            yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.E)) == true);
+
+            if (isEndingDialogue)
+            {
+                dialogueGameObject.SetActive(false);
+            }
+            else
+            {
+            }
+            StopCoroutine(dialogueCoroutine);
+            dialogueCoroutine = null;
+            
+
+
+        }
+
+            yield break;
+    }
+
+    IEnumerator TypewriterCoroutine(string dialogue)
+    {
+
+        dialogueText.ForceMeshUpdate();
+        int totalCharacters = dialogueText.textInfo.characterCount;
+
+        for (int i = 0; i <= totalCharacters; i++)
+        {
+            dialogueText.maxVisibleCharacters = i;
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        StopCoroutine(typewriterText);
+        typewriterText = null;
+        yield break;
+
+    }
+
+
+}
