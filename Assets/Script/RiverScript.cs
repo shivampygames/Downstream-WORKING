@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,14 @@ public class RiverScript : IInteractable
     public Sprite[] fishiesText;
     public Image fishTextSprite;
     public Animator fishTextAnimator;
+    public int GameDifficultyFromZeroToSeven;
+    private Coroutine fishTimer;
+    public GameObject timerGameObject;
+    public RawImage timerSquishDown;
+    public Animator timerSquishAnimator;
+    private int percentChanceOfDisease;
+    public TMP_Text percentage;
+
 
     protected override void Start()
     {
@@ -28,6 +37,13 @@ public class RiverScript : IInteractable
         base.Start();
         water.enabled = false;
         orangeOutline.enabled = false;
+        timerGameObject.SetActive(false);
+        if (fishTimer != null)
+        {
+            StopCoroutine(fishTimer);
+            fishTimer = null;
+        }
+
         //fishPicture.enabled = false;
         foreach (Image tile in tiles)
         {
@@ -41,6 +57,8 @@ public class RiverScript : IInteractable
         }
         buttonPressed = false;
         orangeOutline.enabled = false;
+
+        percentage.text = "0%";
 
 
     }
@@ -80,9 +98,17 @@ public class RiverScript : IInteractable
             {
                 water.enabled = false;
                 orangeOutline.enabled = false;
+                timerGameObject.SetActive(false);
                 //fishPicture.enabled = false;
+                if (fishingUiOpen != null) { 
                 StopCoroutine(fishingUiOpen);
+                }
                 fishingUiOpen = null;
+                if (fishTimer != null)
+                {
+                    StopCoroutine(fishTimer);
+                    fishTimer = null;
+                }
 
 
 
@@ -99,6 +125,8 @@ public class RiverScript : IInteractable
             }
         }
 
+        Debug.Log(percentChanceOfDisease);
+        percentage.text = percentChanceOfDisease + "%";
 
     }
 
@@ -126,7 +154,10 @@ public class RiverScript : IInteractable
         water.enabled = false;
         orangeOutline.enabled = false;
         //fishPicture.enabled = false;
+        timerGameObject.SetActive(false);
+        if (fishingUiOpen != null) { 
         StopCoroutine(fishingUiOpen);
+        }
         fishingUiOpen = null;
         if (fish != null)
         {
@@ -136,6 +167,11 @@ public class RiverScript : IInteractable
             {
                 tile.enabled = false;
             }
+        }
+        if (fishTimer != null)
+        {
+            StopCoroutine(fishTimer);
+            fishTimer = null;
         }
 
         yield break;
@@ -157,7 +193,7 @@ public class RiverScript : IInteractable
             tilesNumber[i] = UnityEngine.Random.Range(0, 16);
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.8f);
 
         for (int i = 0; i < numberOfBoops; i++)
         {
@@ -169,6 +205,15 @@ public class RiverScript : IInteractable
 
         //here you would have the screen turn orange, indicating it's your turn
         orangeOutline.enabled = true;
+        if (fishTimer == null)
+        {
+            fishTimer = StartCoroutine(FishTimerCoroutine(GameDifficultyFromZeroToSeven));
+        } else if (fishTimer != null)
+        {
+            StopCoroutine(fishTimer);
+            fishTimer = null;
+            fishTimer = StartCoroutine(FishTimerCoroutine(GameDifficultyFromZeroToSeven));
+        }
 
 
         for (int i = 0; i < 16; i++)
@@ -209,16 +254,32 @@ public class RiverScript : IInteractable
 
         if (userPressedCorrectly)
         {
-            Debug.Log("+1 fish!");
-            
-            int hmmWhichFish = Random.Range(0, 5);
-            fishPicture.sprite = fishies[hmmWhichFish];
-            Debug.Log("trying to call " + fishies[hmmWhichFish].name);
-            fishPicture.enabled = true;
-            fishTextSprite.enabled = true;
-            fishTextSprite.sprite = fishiesText[0];
-            fishAnimator.SetTrigger("fishTrigger");
-            fishTextAnimator.SetTrigger("fishTrigger");
+            int isTheFishNotDiseased = Random.Range(1, 101);
+            if (isTheFishNotDiseased >= percentChanceOfDisease)
+            {
+
+
+                Debug.Log("+1 fish!");
+
+                int hmmWhichFish = Random.Range(0, 5);
+                fishPicture.sprite = fishies[hmmWhichFish];
+                Debug.Log("trying to call " + fishies[hmmWhichFish].name);
+                fishPicture.enabled = true;
+                fishTextSprite.enabled = true;
+                fishTextSprite.sprite = fishiesText[0];
+                fishAnimator.SetTrigger("fishTrigger");
+                fishTextAnimator.SetTrigger("fishTrigger");
+
+            } else
+            {
+                fishPicture.sprite = fishies[7];
+                Debug.Log("womp womp heidi ur brains diseased");
+                fishPicture.enabled = true;
+                fishTextSprite.enabled = true;
+                fishTextSprite.sprite = fishiesText[2];
+                fishAnimator.SetTrigger("fishTrigger");
+                fishTextAnimator.SetTrigger("fishTrigger");
+            }
 
             
         }
@@ -236,16 +297,27 @@ public class RiverScript : IInteractable
 
         water.enabled = false;
         orangeOutline.enabled = false;
+        timerGameObject.SetActive(false);
         //fishPicture.enabled = false;
+        if (fishingUiOpen != null) { 
         StopCoroutine(fishingUiOpen);
+        }
         fishingUiOpen = null;
+        if (fishTimer != null)
+        {
+            StopCoroutine(fishTimer);
+            fishTimer = null;
+        }
         
         foreach (Image tile in tiles)
         {
             tile.enabled = false;
         }
 
-        StopCoroutine(fish);
+        if (fish != null)
+        {
+            StopCoroutine(fish);
+        }
         fish = null;
         yield break;
 
@@ -256,6 +328,149 @@ public class RiverScript : IInteractable
         whichButton = whichButtonWasIt - 1;
         buttonPressed = true;
 
+    }
+        
+    IEnumerator FishTimerCoroutine(int gameDifficulty)
+    {
+        
+        timerSquishAnimator.SetInteger("level", 0);
+        percentChanceOfDisease = 0;
+        timerGameObject.SetActive(false);
+
+        if (gameDifficulty == 0)
+        {
+            if (fishTimer != null)
+            {
+                StopCoroutine(fishTimer);
+            }
+            fishTimer = null;
+            yield break;
+        }
+        else if (gameDifficulty == 1)
+        {
+            timerGameObject.SetActive(true);
+            timerSquishAnimator.SetInteger("level", gameDifficulty);
+            for (int i = 0; i < 30; i++)
+            {
+                percentChanceOfDisease = percentChanceOfDisease + 80 / 30;
+                yield return new WaitForSeconds(1f);
+            }
+
+            yield return new WaitUntil(() => fishingUiOpen == null);
+            timerSquishAnimator.SetInteger("level", 0);
+            timerGameObject.SetActive(false);
+            if (fishTimer != null)
+            {
+                StopCoroutine(fishTimer);
+            }
+            fishTimer = null;
+            yield break;
+
+        }
+        else if (gameDifficulty == 2)
+        {
+            timerGameObject.SetActive(true);
+            timerSquishAnimator.SetInteger("level", gameDifficulty);
+            for (int i = 0; i < 20; i++)
+            {
+                percentChanceOfDisease = percentChanceOfDisease + 80 / 20;
+                yield return new WaitForSeconds(1f);
+            }
+
+            yield return new WaitUntil(() => fishingUiOpen == null);
+            timerSquishAnimator.SetInteger("level", 0);
+            timerGameObject.SetActive(false);
+            if (fishTimer != null)
+            {
+                StopCoroutine(fishTimer);
+            }
+            fishTimer = null;
+            yield break;
+
+        }
+        else if (gameDifficulty == 3)
+        {
+            timerGameObject.SetActive(true);
+            timerSquishAnimator.SetInteger("level", gameDifficulty);
+            for (int i = 0; i < 15; i++)
+            {
+                percentChanceOfDisease = percentChanceOfDisease + 80 / 15;
+                yield return new WaitForSeconds(1f);
+            }
+
+            yield return new WaitUntil(() => fishingUiOpen == null);
+            timerSquishAnimator.SetInteger("level", 0);
+            timerGameObject.SetActive(false);
+            if (fishTimer != null)
+            {
+                StopCoroutine(fishTimer);
+            }
+            fishTimer = null;
+            yield break;
+
+        }
+        else if (gameDifficulty == 4)
+        {
+            timerGameObject.SetActive(true);
+            timerSquishAnimator.SetInteger("level", gameDifficulty);
+            for (int i = 0; i < 10; i++)
+            {
+                percentChanceOfDisease = percentChanceOfDisease + 80 / 10;
+                yield return new WaitForSeconds(1f);
+            }
+
+            yield return new WaitUntil(() => fishingUiOpen == null);
+            timerSquishAnimator.SetInteger("level", 0);
+            timerGameObject.SetActive(false);
+            if (fishTimer != null)
+            {
+                StopCoroutine(fishTimer);
+            }
+            fishTimer = null;
+            yield break;
+
+        }
+        else if (gameDifficulty == 5)
+        {
+            timerGameObject.SetActive(true);
+            timerSquishAnimator.SetInteger("level", gameDifficulty);
+            for (int i = 0; i < 6; i++)
+            {
+                percentChanceOfDisease = percentChanceOfDisease + 80 / 6;
+                yield return new WaitForSeconds(1f);
+            }
+
+            yield return new WaitUntil(() => fishingUiOpen == null);
+            timerSquishAnimator.SetInteger("level", 0);
+            timerGameObject.SetActive(false);
+            if (fishTimer != null)
+            {
+                StopCoroutine(fishTimer);
+            }
+            fishTimer = null;
+            yield break;
+
+        }
+        else if (gameDifficulty == 6)
+        {
+            timerGameObject.SetActive(true);
+            timerSquishAnimator.SetInteger("level", gameDifficulty);
+            for (int i = 0; i < 3; i++)
+            {
+                percentChanceOfDisease = percentChanceOfDisease + 80 / 3;
+                yield return new WaitForSeconds(1f);
+            }
+
+            yield return new WaitUntil(() => fishingUiOpen == null);
+            timerSquishAnimator.SetInteger("level", 0);
+            timerGameObject.SetActive(false);
+            if (fishTimer != null) { 
+                StopCoroutine(fishTimer);
+            }
+            fishTimer = null;
+            yield break;
+
+        }
     }
 
 }
