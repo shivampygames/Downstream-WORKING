@@ -27,6 +27,7 @@ public class IInteractable : MonoBehaviour
 
         interactOutline.enabled = false;
         playerInBounds = false;
+        interactTextBox.SetActive(false);
         interactText.text = "";
 
         canInteract = true;
