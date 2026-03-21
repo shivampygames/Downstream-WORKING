@@ -83,19 +83,19 @@ public class RiverScript : IInteractable
             //onInteraction = true;
             if (fishingUiOpen == null)
             {
-                interactTextBox.SetActive(true);
+                base.interactTextBox.SetActive(true);
                 interactText.text = "E to fish";
             }
             else
             {
-                interactTextBox.SetActive(false);
+                base.interactTextBox.SetActive(false);
                 interactText.text = "";
             }
         }
         else
         {
             //onInteraction = false;
-            interactTextBox.SetActive(false);
+            base.interactTextBox.SetActive(false);
             interactText.text = "";
             if (fishingUiOpen != null)
             {
@@ -144,7 +144,7 @@ public class RiverScript : IInteractable
         }
 
         water.enabled = true;
-        interactTextBox.SetActive(false);
+        base.interactTextBox.SetActive(false);
         interactText.text = "";
 
         // at this point you would start the other coroutine lol

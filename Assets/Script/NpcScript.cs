@@ -18,6 +18,9 @@ public class NpcScript : MonoBehaviour
     public TMP_Text instructionText;
     private Coroutine typewriterText;
     private Coroutine sequenceDialogue;
+    public GameObject interactTextBox;
+    public TMP_Text interactText;
+    public DialogueSpriteController spriteController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +30,9 @@ public class NpcScript : MonoBehaviour
 
         NPCoutline.enabled = false;
         playerInBoundsToInteract = false;
+        interactText.text = "";
+        interactTextBox.SetActive(false);
+        
 
         dialogueGameObject.SetActive(false);
     }
@@ -42,7 +48,7 @@ public class NpcScript : MonoBehaviour
                 //Debug.Log("hey kiddo :)");
                 if (dialogueCoroutine == null) {
                     //dialogueCoroutine = StartCoroutine(PlayDialogue("Dad", "hey kiddo :) you doing okay?", true));
-                    sequenceDialogue = StartCoroutine(SequentialDialogue(new string[] {"Dad", "Heidi"}, new string[] { "hey kiddo :) you doing good?", "yeah! :DDDDD im gonna go play now,"}, true));
+                    sequenceDialogue = StartCoroutine(SequentialDialogue(new string[] {"Dad", "Heidi", "Dad", "Dad"}, new string[] { "hey kiddo :) you doing good?", "yeah! :DDDDD im gonna go play now,", "okay, stay safe, it's getting dark out", ",,,oh, and be back before dinner"}, true, new string[] { "Left", "Right", "Left", "Left" }, new int[] { 1, 1, 3, 2 }));
                     NPCanimator.SetTrigger("waving");
                 }
             }
@@ -56,7 +62,10 @@ public class NpcScript : MonoBehaviour
         {
             NPCoutline.enabled = true;
             playerInBoundsToInteract = true;
-            
+            interactText.text = "E to interact";
+            interactTextBox.SetActive(true);
+
+
         }
     }
 
@@ -65,6 +74,10 @@ public class NpcScript : MonoBehaviour
         if (other.name == "Heidi")
         {
             NPCoutline.enabled = false;
+
+            interactTextBox.SetActive(false);
+            interactText.text = "";
+
             playerInBoundsToInteract = false;
             if (dialogueCoroutine != null) { 
                 StopCoroutine(dialogueCoroutine);
@@ -75,7 +88,7 @@ public class NpcScript : MonoBehaviour
         }
     }
 
-    IEnumerator SequentialDialogue(string[] speakerList, string[] dialogueList, bool isEndingDialogueList)
+    IEnumerator SequentialDialogue(string[] speakerList, string[] dialogueList, bool isEndingDialogueList, string[] SpriteLeftRightNeither, int[] whichSprite)
     {
         int speakerListLength = speakerList.Length;
         int dialogueListLength = dialogueList.Length;
@@ -87,7 +100,19 @@ public class NpcScript : MonoBehaviour
                 dialogueCoroutine = null;
             }
             
+            if (SpriteLeftRightNeither[i] == "Left")
+            {
+                spriteController.changeLeftSprite(whichSprite[i]);
+            } else if (SpriteLeftRightNeither[i] == "Right")
+            {
+                spriteController.changeRightSprite(whichSprite[i]);
+            } else
+            {
+                spriteController.clearSprites();
+            }
+
             yield return dialogueCoroutine = StartCoroutine(PlayDialogue(speakerList[i], dialogueList[i], isEndingDialogueList));
+
             
         }
 

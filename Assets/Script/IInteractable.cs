@@ -10,8 +10,8 @@ public class IInteractable : MonoBehaviour
     protected bool playerInBounds;
     protected bool canInteract;
     protected bool onInteraction;
-    protected GameObject interactTextBox;
-    protected TMP_Text interactText;
+    [SerializeField] protected GameObject interactTextBox;
+    [SerializeField] protected TMP_Text interactText;
     protected int boxesTouched;
     
 
@@ -20,8 +20,10 @@ public class IInteractable : MonoBehaviour
     {
         interactCollider = GetComponent<Collider>();
         interactOutline = GetComponent<Outline>();
-        interactTextBox = GameObject.Find("InteractTextBox");
-        interactText = interactTextBox.GetComponentInChildren<TMP_Text>();
+        //interactTextBox = GameObject.FindWithTag("InteractTextBox");
+        //interactText = interactTextBox.GetComponentInChildren<TMP_Text>();
+        //interactTextBox = GameObject.Find(gameObject.name = "InteractTextBox");
+        //interactText = interactTextBox.GetComponentInChildren<TMP_Text>();
 
         boxesTouched = 0;
 
