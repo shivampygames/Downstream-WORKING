@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2557c671118edcd4b92a1039449453b2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - dialogueGameObject: {instanceID: 0}
+  - speakerText: {instanceID: 0}
+  - dialogueText: {instanceID: 0}
+  - instructionText: {instanceID: 0}
+  - interactTextBox: {instanceID: 0}
+  - interactText: {instanceID: 0}
+  - spriteController: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -8,22 +8,22 @@ public class NpcScript : MonoBehaviour
 {
 
     public Animator NPCanimator;
-    private Collider NPCcollider;
-    private Outline NPCoutline;
-    private bool playerInBoundsToInteract;
-    private Coroutine dialogueCoroutine;
+    protected Collider NPCcollider;
+    protected Outline NPCoutline;
+    protected bool playerInBoundsToInteract;
+    protected Coroutine dialogueCoroutine;
     public GameObject dialogueGameObject;
     public TMP_Text speakerText;
     public TMP_Text dialogueText;
     public TMP_Text instructionText;
-    private Coroutine typewriterText;
-    private Coroutine sequenceDialogue;
+    protected Coroutine typewriterText;
+    protected Coroutine sequenceDialogue;
     public GameObject interactTextBox;
     public TMP_Text interactText;
     public DialogueSpriteController spriteController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         NPCcollider = GetComponent<Collider>();
         NPCoutline = GetComponent<Outline>();
@@ -38,7 +38,7 @@ public class NpcScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
         if (playerInBoundsToInteract == true)
@@ -56,7 +56,7 @@ public class NpcScript : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.name == "Heidi")
         {
@@ -69,7 +69,7 @@ public class NpcScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (other.name == "Heidi")
         {
@@ -88,10 +88,12 @@ public class NpcScript : MonoBehaviour
         }
     }
 
-    IEnumerator SequentialDialogue(string[] speakerList, string[] dialogueList, bool isEndingDialogueList, string[] SpriteLeftRightNeither, int[] whichSprite)
+    protected virtual IEnumerator SequentialDialogue(string[] speakerList, string[] dialogueList, bool isEndingDialogueList, string[] SpriteLeftRightNeither, int[] whichSprite)
     {
+        interactTextBox.SetActive(false);
         int speakerListLength = speakerList.Length;
         int dialogueListLength = dialogueList.Length;
+        dialogueGameObject.SetActive(true);
 
         for (int i = 0; i < speakerListLength; i++) {
             if (dialogueCoroutine != null)
@@ -99,14 +101,16 @@ public class NpcScript : MonoBehaviour
                 StopCoroutine (dialogueCoroutine);
                 dialogueCoroutine = null;
             }
-            
+
             if (SpriteLeftRightNeither[i] == "Left")
             {
                 spriteController.changeLeftSprite(whichSprite[i]);
-            } else if (SpriteLeftRightNeither[i] == "Right")
+            }
+            else if (SpriteLeftRightNeither[i] == "Right")
             {
                 spriteController.changeRightSprite(whichSprite[i]);
-            } else
+            }
+            else
             {
                 spriteController.clearSprites();
             }
@@ -116,13 +120,14 @@ public class NpcScript : MonoBehaviour
             
         }
 
+        interactTextBox.SetActive(true);
         StopCoroutine(sequenceDialogue);
         sequenceDialogue = null;
         yield break;
 
     }
 
-    IEnumerator PlayDialogue(string speaker, string dialogue, bool isEndingDialogue)
+    protected virtual IEnumerator PlayDialogue(string speaker, string dialogue, bool isEndingDialogue)
     {
         //Debug.Log(dialogue);
 
@@ -184,7 +189,7 @@ public class NpcScript : MonoBehaviour
             yield break;
     }
 
-    IEnumerator TypewriterCoroutine(string dialogue)
+    protected virtual IEnumerator TypewriterCoroutine(string dialogue)
     {
 
         dialogueText.ForceMeshUpdate();
