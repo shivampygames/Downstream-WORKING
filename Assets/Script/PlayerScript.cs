@@ -11,6 +11,10 @@ public class PlayerScript : MonoBehaviour
     public vThirdPersonController vThirdPersonController;
     public Animator animator;
 
+    public GameManager gameManager;
+
+    private bool setLevelOne = false;
+
     void Start()
     {
         
@@ -19,9 +23,32 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameManager.currentState == GameManager.GameState.backstory)
+        {
+            //controls();
+        }
+        if (gameManager.currentState == GameManager.GameState.lvl001)
+        {
+            controls();
+
+            if (setLevelOne == false)
+            {
+                transform.position = new Vector3(-5.34f, 0, 13.383f);
+
+                transform.rotation = Quaternion.Euler((new Vector3(0, 0, 0)));
+                setLevelOne = true;
+            }
+
+        }
 
         //controls ?
 
+        
+
+    }
+
+    void controls()
+    {
         if (Input.GetKey(KeyCode.Mouse1))
         {
             if (vThirdPersonCamera.lockCamera == true)
@@ -43,7 +70,8 @@ public class PlayerScript : MonoBehaviour
             {
                 vThirdPersonInput.enabled = true;
             }
-        } else
+        }
+        else
         {
             if (vThirdPersonCamera.lockCamera == false)
             {
@@ -64,7 +92,7 @@ public class PlayerScript : MonoBehaviour
             {
                 vThirdPersonInput.enabled = false;
             }
-            
+
         }
 
         // animations
@@ -72,26 +100,29 @@ public class PlayerScript : MonoBehaviour
         if ((Input.GetKey(KeyCode.W) == true) || (Input.GetKey(KeyCode.A) == true) || (Input.GetKey(KeyCode.S) == true) || (Input.GetKey(KeyCode.D) == true))
         {
 
-            if (Input.GetKey(KeyCode.Mouse1) == true) { 
+            if (Input.GetKey(KeyCode.Mouse1) == true)
+            {
 
                 if ((Input.GetKey(KeyCode.LeftShift) == true) || (Input.GetKey(KeyCode.RightShift) == true))
                 {
                     animator.SetFloat("speed", 11f);
-                } else
+                }
+                else
                 {
                     //animator.speed = 6.7f;
                     animator.SetFloat("speed", 6.7f);
                 }
-            } else
+            }
+            else
             {
                 animator.SetFloat("speed", 2f);
             }
-        } else
+        }
+        else
         {
             //animator.speed = 2.7f;
             animator.SetFloat("speed", 2f);
         }
-
-
+ 
     }
 }

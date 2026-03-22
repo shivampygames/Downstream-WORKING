@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class DialogueTextTriggerScript : MonoBehaviour
 {
-    protected Coroutine dialogueCoroutine;
+    public Coroutine dialogueCoroutine;
     public GameObject dialogueGameObject;
     public TMP_Text speakerText;
     public TMP_Text dialogueText;
     public TMP_Text instructionText;
-    protected Coroutine typewriterText;
-    protected Coroutine sequenceDialogue;
+    public Coroutine typewriterText;
+    public Coroutine sequenceDialogue;
     public GameObject interactTextBox;
     public TMP_Text interactText;
     public DialogueSpriteController spriteController;
@@ -31,6 +31,12 @@ public class DialogueTextTriggerScript : MonoBehaviour
     public void ScriptTriggered(string[] speakerListX, string[] dialogueListX, bool isEndingDialogueListX, string[] SpriteLeftRightNeitherX, int[] whichSpriteX)
     {
         if (sequenceDialogue == null) {
+
+            spriteController.rightSprite.sprite = spriteController.rightSprites[0];
+            spriteController.cinematic.sprite = spriteController.cinematicSprites[0];
+            spriteController.cinematicBackground.sprite = spriteController.cinematicSprites[0];
+            spriteController.leftSprite.sprite = spriteController.leftSprites[0];
+            
             sequenceDialogue = StartCoroutine(SequentialDialogue(speakerListX, dialogueListX, isEndingDialogueListX, SpriteLeftRightNeitherX, whichSpriteX));
         }
 
@@ -84,6 +90,9 @@ public class DialogueTextTriggerScript : MonoBehaviour
             else if (SpriteLeftRightNeither[i] == "Right")
             {
                 spriteController.changeRightSprite(whichSprite[i]);
+            } else if (SpriteLeftRightNeither[i] == "Cinematic")
+            {
+                spriteController.changeCinematicSprites(whichSprite[i]);
             }
             else
             {
@@ -96,8 +105,14 @@ public class DialogueTextTriggerScript : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.1f);
-        interactTextBox.SetActive(true);
-        StopAllDialogue();
+        if ((SpriteLeftRightNeither[0] == "Cinematic") || (SpriteLeftRightNeither[0] == "None"))
+        {
+            interactTextBox.SetActive(false);
+        } else
+        {
+            interactTextBox.SetActive(true);
+        }
+            StopAllDialogue();
 
     }
 
