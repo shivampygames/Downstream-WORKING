@@ -42,7 +42,7 @@ public class DadNPCScript : MonoBehaviour
 
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad" }, new string[] { "hey kiddo :) you doing good?", "yeah! :DDDDD im gonna go play now,", "okay, stay safe, it's getting dark out", ",,,oh, and be back before dinner" }, true, new string[] { "Left", "Right", "Left", "Left" }, new int[] { 1, 1, 3, 2 });
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad" }, new string[] { "Hey kiddo. Did you sleep well?", "Yeah I did!", "That's nice, bud.", "How about helping us catch some fish for breakfast? We can eat breakfast after." }, true, new string[] { "Left", "Right", "Left", "Left" }, new int[] { 1, 1, 3, 2 });
             }
 
         }

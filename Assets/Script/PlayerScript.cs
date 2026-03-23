@@ -40,6 +40,10 @@ public class PlayerScript : MonoBehaviour
             }
 
         }
+        if (gameManager.currentState == GameManager.GameState.lvl002)
+        {
+            controls();
+        }
 
         //controls ?
 

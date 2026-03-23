@@ -1,3 +1,5 @@
+using System.Globalization;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -15,10 +17,33 @@ public class GameManager : MonoBehaviour
 
     private bool setUpLevel1 = false;
 
+    public GameObject UI;
+    public TMP_Text objective;
+    
+    public TMP_Text fishCount;
+
+    public GameObject theArrow;
+
+    // things the arrow needs to look at: 
+    public GameObject dadPosition;
+    public GameObject riverPosition;
+
+
+    //level 1 variables
+    bool calledTheUI = false;
+    public bool riverSequenceStarted = false;
+    public bool startedTalkingToDad = false;
+    bool reachedTheRiver = false;
+    
+
+    //public GameObject villageHunger;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentState = GameState.backstory;
+        UI.SetActive(false);
+        theArrow.SetActive(false);
     }
 
     // Update is called once per frame
@@ -53,8 +78,10 @@ public class GameManager : MonoBehaviour
     }
     private void lvl001()
     {
-        readyForLevel2 = false;
+        
         Debug.Log("omg level 1 ltes go");
+        
+        
 
         if (setUpLevel1 == false)
         {
@@ -62,9 +89,59 @@ public class GameManager : MonoBehaviour
             setUpLevel1 = true;
         }
 
+        if ((textTriggerScript.sequenceDialogue == null) && (calledTheUI == false))
+        {
+            UI.SetActive(true);
+            objective.text = "Talk to Dad (Right-click and drag on your mouse to look around. WASD while holding right-click to move)";
+            theArrow.SetActive(true);
+            calledTheUI = true;
+        }
+
+        if ((calledTheUI == true) && (riverSequenceStarted == false))
+        {
+            ArrowPoint(dadPosition);
+        }
+        
+        if ((calledTheUI == true) && (startedTalkingToDad == false)) 
+        {
+            if (textTriggerScript.sequenceDialogue != null)
+            {
+                startedTalkingToDad = true;
+            }
+        }
+
+        
+        if ((startedTalkingToDad == true) && (riverSequenceStarted == false))
+        {
+            theArrow.SetActive(false);
+
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                riverSequenceStarted = true;
+            }
+        }
+
+        if ((riverSequenceStarted == true) && (reachedTheRiver == false))
+        {
+            theArrow.SetActive(true);
+            objective.text = "Head to the river to catch fish.";
+            ArrowPoint(riverPosition);
+            float distanceBetweenCharAndRiver;
+            Vector3 diff = (theArrow.transform.position - riverPosition.transform.position);
+            diff.y = 0;
+            distanceBetweenCharAndRiver = diff.magnitude;
+            if ((distanceBetweenCharAndRiver < 6.7) && (reachedTheRiver == false))
+            {
+                reachedTheRiver = true;
+                readyForLevel2 = true;
+            }
+        }
+
+
         if (readyForLevel2 == true)
         {
             currentState = GameState.lvl002;
+
         }
 
     }
@@ -74,5 +151,18 @@ public class GameManager : MonoBehaviour
         Debug.Log("ong we r in lvl 2 lol");
     }
 
+    private void ArrowPoint(GameObject target)
+    {
+        Vector3 targetPosition = target.transform.position;
+        targetPosition.y = theArrow.transform.position.y;
+        //theArrow.transform.LookAt(targetPosition);
+
+        Vector3 direction = targetPosition - theArrow.transform.position;
+
+        if (direction.magnitude > 0.1f)
+        {
+            theArrow.transform.rotation = Quaternion.LookRotation(direction);
+        }
+    }
 
 }
