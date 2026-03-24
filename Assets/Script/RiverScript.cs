@@ -29,6 +29,13 @@ public class RiverScript : IInteractable
     public Animator timerSquishAnimator;
     private int percentChanceOfDisease;
     public TMP_Text percentage;
+    public GameManager gameManager;
+
+    public int fishiesCaughtNumber;
+    public TMP_Text fishiesCaught;
+
+    // lvl starting varipable s i guess
+    bool setLevel2 = false;
 
 
     protected override void Start()
@@ -64,7 +71,39 @@ public class RiverScript : IInteractable
     }
     protected override void Update()
     {
+        
+        if (gameManager.currentState == GameManager.GameState.backstory)
+        {
+            //runFishingScript(); 
+        } else if (gameManager.currentState == GameManager.GameState.lvl001)
+        {
+            //runFishingScript();
+        } else if (gameManager.currentState == GameManager.GameState.lvl002andahalf)
+        {
+            //runFishingScript();
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl002)
+        {
+            if (setLevel2 == false) {
+                GameDifficultyFromZeroToSeven = 0;
+                fishiesCaughtNumber = 00;
+                fishiesCaught.text = "00";
+                setLevel2 = true;
+            }
+            runFishingScript();
+        } else if (gameManager.currentState == GameManager.GameState.lvl003)
+        {
+            // dont run the fishing script
+            interactTextBox.SetActive(false);
+        }
+
+    }
+
+    void runFishingScript()
+    {
         base.Update();
+
+        
 
         if (base.onInteraction)
         {
@@ -103,8 +142,9 @@ public class RiverScript : IInteractable
                 orangeOutline.enabled = false;
                 timerGameObject.SetActive(false);
                 //fishPicture.enabled = false;
-                if (fishingUiOpen != null) { 
-                StopCoroutine(fishingUiOpen);
+                if (fishingUiOpen != null)
+                {
+                    StopCoroutine(fishingUiOpen);
                 }
                 fishingUiOpen = null;
                 if (fishTimer != null)
@@ -128,9 +168,10 @@ public class RiverScript : IInteractable
             }
         }
 
-        Debug.Log(percentChanceOfDisease);
-        percentage.text = percentChanceOfDisease + "%";
+        //Debug.Log(percentChanceOfDisease);
+        //percentage.text = percentChanceOfDisease + "%";
 
+        fishiesCaught.text = fishiesCaughtNumber.ToString();
     }
 
     IEnumerator FishingUIOpenCoroutine()
@@ -273,6 +314,7 @@ public class RiverScript : IInteractable
                 fishTextSprite.sprite = fishiesText[0];
                 fishAnimator.SetTrigger("fishTrigger");
                 fishTextAnimator.SetTrigger("fishTrigger");
+                fishiesCaughtNumber++;
 
             } else
             {

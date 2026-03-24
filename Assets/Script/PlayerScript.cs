@@ -27,7 +27,7 @@ public class PlayerScript : MonoBehaviour
         {
             //controls();
         }
-        if (gameManager.currentState == GameManager.GameState.lvl001)
+        else if (gameManager.currentState == GameManager.GameState.lvl001)
         {
             controls();
 
@@ -40,7 +40,14 @@ public class PlayerScript : MonoBehaviour
             }
 
         }
-        if (gameManager.currentState == GameManager.GameState.lvl002)
+        else if (gameManager.currentState == GameManager.GameState.lvl002andahalf)
+        {
+            controls();
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl002)
+        {
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl003)
         {
             controls();
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*pop up with the daytime timer thing*/, lvl005 /*go back to fishing with the newly added daytime timer*/, lvl006 /*go talk to dad (AT THIS POINT HE EATS THE FISH)*/, lvl007 /*eachnightlasts1minutetextboxpopup*/, lvl008 /*monstergamething*/, lvl009 /*go talk to dad*/, lvl010 /*go sleep*/ }
+    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*go back to fishing with the newly added daytime timer*/, lvl007 /*go talk to dad (AT THIS POINT HE EATS THE FISH)*/, lvl008 /* go sleep */ }
 
     public GameState currentState;
 
@@ -19,24 +19,36 @@ public class GameManager : MonoBehaviour
 
     public GameObject UI;
     public TMP_Text objective;
-    
+
     public TMP_Text fishCount;
 
     public GameObject theArrow;
 
+    public GameObject fishingInstructionsIdk;
+
     // things the arrow needs to look at: 
     public GameObject dadPosition;
     public GameObject riverPosition;
+    public GameObject theCommotionLocation;
 
+    //public TMP_Text fishCountingText;
 
     //level 1 variables
     bool calledTheUI = false;
     public bool riverSequenceStarted = false;
     public bool startedTalkingToDad = false;
     bool reachedTheRiver = false;
-    
+
+    //level 2 and  ahalf veriables
+    bool startedFishingTutorial = false;
+
+    // level 2 variables
+    bool setLevelTwo = false;
 
     //public GameObject villageHunger;
+
+    //level 3 variables
+    bool setLevelThree = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +56,7 @@ public class GameManager : MonoBehaviour
         currentState = GameState.backstory;
         UI.SetActive(false);
         theArrow.SetActive(false);
+        fishingInstructionsIdk.SetActive(false);
     }
 
     // Update is called once per frame
@@ -54,11 +67,17 @@ public class GameManager : MonoBehaviour
             case GameState.backstory:
                 backstory();
                 break;
+            case GameState.lvl002andahalf:
+                lvl002andahalf();
+                break;
             case GameState.lvl001:
                 lvl001();
                 break;
             case GameState.lvl002:
                 lvl002();
+                break;
+            case GameState.lvl003:
+                lvl003();
                 break;
         }
     }
@@ -72,16 +91,16 @@ public class GameManager : MonoBehaviour
         }
         if (textTriggerScript.sequenceDialogue == null)
         {
-            currentState =  GameState.lvl001;
+            currentState = GameState.lvl001;
         }
 
     }
     private void lvl001()
     {
-        
+
         Debug.Log("omg level 1 ltes go");
-        
-        
+
+
 
         if (setUpLevel1 == false)
         {
@@ -101,8 +120,8 @@ public class GameManager : MonoBehaviour
         {
             ArrowPoint(dadPosition);
         }
-        
-        if ((calledTheUI == true) && (startedTalkingToDad == false)) 
+
+        if ((calledTheUI == true) && (startedTalkingToDad == false))
         {
             if (textTriggerScript.sequenceDialogue != null)
             {
@@ -110,7 +129,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        
+
         if ((startedTalkingToDad == true) && (riverSequenceStarted == false))
         {
             theArrow.SetActive(false);
@@ -130,7 +149,7 @@ public class GameManager : MonoBehaviour
             Vector3 diff = (theArrow.transform.position - riverPosition.transform.position);
             diff.y = 0;
             distanceBetweenCharAndRiver = diff.magnitude;
-            if ((distanceBetweenCharAndRiver < 6.7) && (reachedTheRiver == false))
+            if ((distanceBetweenCharAndRiver < 4) && (reachedTheRiver == false))
             {
                 reachedTheRiver = true;
                 readyForLevel2 = true;
@@ -140,15 +159,59 @@ public class GameManager : MonoBehaviour
 
         if (readyForLevel2 == true)
         {
-            currentState = GameState.lvl002;
+            currentState = GameState.lvl002andahalf;
 
         }
 
     }
 
+    private void lvl002andahalf()
+    {
+        if (startedFishingTutorial == false)
+        {
+            fishingInstructionsIdk.SetActive(true);
+        }
+    }
+
     private void lvl002()
     {
         Debug.Log("ong we r in lvl 2 lol");
+        if (setLevelTwo == false) { 
+            theArrow.SetActive(false);
+            fishingInstructionsIdk.SetActive(false);
+            setLevelTwo = true;
+            objective.text = "Try catching a couple of fish";
+        }
+
+        if (fishCount.text == "5")
+        {
+            currentState = GameState.lvl003;
+        }
+
+
+    }
+
+    private void lvl003()
+    {
+        Debug.Log("l-l-l-level 3? *makes puppy eyes uwu so kawaii (someone beat me up bro)");
+        if (setLevelThree == false)
+        {
+            textTriggerScript.ScriptTriggered(new string[] { "", "Person", "" }, new string[] { "[You suddenly hear another fisher call out in surprise.]", "WOAH! Hey, I think there's something wrong with this fish!", "[You notice everyone gathers around them." }, true, new string[] { "None", "Left", "None" }, new int[] { 0, 0, 0 }); // change the second zero to the actual sprite when you draw it
+            setLevelThree = true;
+        }
+
+        if (textTriggerScript.sequenceDialogue == null)
+        {
+            objective.text = "Go see what the commotion is.";
+            theArrow.SetActive(true);
+            ArrowPoint(theCommotionLocation);
+            float distanceToCommotion = Mathf.Abs(((theArrow.transform.position - theCommotionLocation.transform.position)).magnitude);
+            if (distanceToCommotion < 2.67f) 
+            {
+                currentState = GameState.lvl004;
+            }
+        }
+
     }
 
     private void ArrowPoint(GameObject target)
@@ -165,4 +228,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void goToLevelTwo()
+    {
+        currentState = GameState.lvl002;
+    }
 }

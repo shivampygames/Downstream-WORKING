@@ -42,9 +42,21 @@ public class DadNPCScript : MonoBehaviour
 
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad" }, new string[] { "Hey kiddo. Did you sleep well?", "Yeah I did!", "That's nice, bud.", "How about helping us catch some fish for breakfast? We can eat breakfast after." }, true, new string[] { "Left", "Right", "Left", "Left" }, new int[] { 1, 1, 3, 2 });
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad" }, new string[] { "Good morning, kiddo. Did you sleep well?", "Yeah I did!", "That's good, bud.", "How about helping us catch some fish? We can eat breakfast after." }, true, new string[] { "Left", "Right", "Left", "Left" }, new int[] { 1, 1, 3, 2 });
             }
 
+        } else if (gameManager.currentState == GameManager.GameState.lvl002andahalf)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi" }, new string[] { "Hey kiddo :) You doing good?", "Yeah :D" }, true, new string[] { "Left", "Right" }, new int[] { 3, 1 });
+            }
+        } else if (gameManager.currentState == GameManager.GameState.lvl002)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi" }, new string[] { "Hey kiddo :) You doing good?", "Yeah :D" }, true, new string[] { "Left", "Right" }, new int[] { 3, 1 });
+            }
         }
 
         
