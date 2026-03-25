@@ -50,6 +50,12 @@ public class PlayerScript : MonoBehaviour
         } else if (gameManager.currentState == GameManager.GameState.lvl003)
         {
             controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl004)
+        {
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl005)
+        {
+            controls();
         }
 
         //controls ?

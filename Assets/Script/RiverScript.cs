@@ -95,6 +95,12 @@ public class RiverScript : IInteractable
         {
             // dont run the fishing script
             interactTextBox.SetActive(false);
+        } else if (gameManager.currentState == GameManager.GameState.lvl004)
+        {
+            interactTextBox.SetActive(false);
+        } else if (gameManager.currentState == GameManager.GameState.lvl005)
+        {
+            runFishingScript();
         }
 
     }

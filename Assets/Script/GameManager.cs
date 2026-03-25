@@ -1,11 +1,12 @@
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 
-    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*go back to fishing with the newly added daytime timer*/, lvl007 /*go talk to dad (AT THIS POINT HE EATS THE FISH)*/, lvl008 /* go sleep */ }
+    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*go talk to dad (AT THIS POINT HE EATS THE FISH)*/, lvl007 /* go sleep */ }
 
     public GameState currentState;
 
@@ -50,6 +51,10 @@ public class GameManager : MonoBehaviour
     //level 3 variables
     bool setLevelThree = false;
 
+    // level 4 variables
+
+    bool startedTalking = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -79,6 +84,14 @@ public class GameManager : MonoBehaviour
             case GameState.lvl003:
                 lvl003();
                 break;
+            case GameState.lvl004:
+                lvl004();
+                break;
+            case GameState.lvl005:
+                lvl005();
+                break;
+
+
         }
     }
 
@@ -183,7 +196,7 @@ public class GameManager : MonoBehaviour
             objective.text = "Try catching a couple of fish";
         }
 
-        if (fishCount.text == "5")
+        if (fishCount.text == "4")
         {
             currentState = GameState.lvl003;
         }
@@ -196,7 +209,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("l-l-l-level 3? *makes puppy eyes uwu so kawaii (someone beat me up bro)");
         if (setLevelThree == false)
         {
-            textTriggerScript.ScriptTriggered(new string[] { "", "Person", "" }, new string[] { "[You suddenly hear another fisher call out in surprise.]", "WOAH! Hey, I think there's something wrong with this fish!", "[You notice everyone gathers around them." }, true, new string[] { "None", "Left", "None" }, new int[] { 0, 0, 0 }); // change the second zero to the actual sprite when you draw it
+            textTriggerScript.ScriptTriggered(new string[] { "", "Person", "" }, new string[] { "[You suddenly hear another fisher call out in surprise.]", "AHHH!!! THE FISH!", "[You notice everyone gathers around them in concern.]" }, true, new string[] { "None", "Left", "None" }, new int[] { 0, 0, 0 }); // change the second zero to the actual sprite when you draw it
             setLevelThree = true;
         }
 
@@ -212,6 +225,29 @@ public class GameManager : MonoBehaviour
             }
         }
 
+    }
+
+    private void lvl004()
+    {
+        theArrow.SetActive(false);
+
+        if (textTriggerScript.sequenceDialogue != null)
+        {
+            startedTalking = true;
+        }
+        
+        if (startedTalking == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                currentState = GameState.lvl005;
+            }
+        }
+    }
+
+    private void lvl005()
+    {
+        objective.text = "Get back to fishing. It'll be evening soon, so you don't have much time.";
     }
 
     private void ArrowPoint(GameObject target)

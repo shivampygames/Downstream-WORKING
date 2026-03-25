@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class DadNPCScript : MonoBehaviour
+public class NPC1 : MonoBehaviour
 {
 
     public Animator NPCanimator;
@@ -14,12 +14,14 @@ public class DadNPCScript : MonoBehaviour
     public DialogueTextTriggerScript textTriggerScript;
     public GameManager gameManager;
 
+    bool canInteract = false;
 
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        // Lilith
     }
 
     // Update is called once per frame
@@ -31,51 +33,54 @@ public class DadNPCScript : MonoBehaviour
 
         } else if (gameManager.currentState == GameManager.GameState.lvl001)
         {
+            canInteract = true;
+            transform.position = new Vector3(-0.01f, 0.079f, -1.79f);
+            transform.rotation = Quaternion.Euler(0, -32.4f, 0);
+
 
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad" }, new string[] { "Good morning, kiddo. Did you sleep well?", "Yeah I did!", "That's good, bud.", "How about helping us catch some fish? We can eat breakfast after." }, true, new string[] { "Left", "Right", "Left", "Left" }, new int[] { 1, 1, 3, 2 });
+                textTriggerScript.ScriptTriggered(new string[] { "Lilith" }, new string[] { "Good morning, Heidi!" }, true, new string[] { "Left" }, new int[] { 0});
             }
 
         } else if (gameManager.currentState == GameManager.GameState.lvl002andahalf)
         {
+
+            canInteract= true;
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi" }, new string[] { "Hey kiddo :) You doing good?", "Yeah :D" }, true, new string[] { "Left", "Right" }, new int[] { 3, 1 });
+                textTriggerScript.ScriptTriggered(new string[] { "Lilith" }, new string[] { "Good morning, Heidi!" }, true, new string[] { "Left" }, new int[] { 0 });
             }
         } else if (gameManager.currentState == GameManager.GameState.lvl002)
         {
+            canInteract = true;
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi" }, new string[] { "Hey kiddo :) You doing good?", "Yeah :D" }, true, new string[] { "Left", "Right" }, new int[] { 3, 1 });
+                textTriggerScript.ScriptTriggered(new string[] { "Lilith" }, new string[] { "Good morning, Heidi!" }, true, new string[] { "Left" }, new int[] { 0 });
             }
         } else if (gameManager.currentState == GameManager.GameState.lvl003)
         {
+            canInteract = true;
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad" }, new string[] { "What are you doing here bud?", "I just came to say hi :)", "I see. Well, Hi there!" }, true, new string[] { "Left", "Right", "Left" }, new int[] { 2, 1, 3 });
+                textTriggerScript.ScriptTriggered(new string[] { "Lilith" }, new string[] { "How much fish did you catch, Heidi? I bet you got a lot!" }, true, new string[] { "Left" }, new int[] { 0 });
             }
-        }
-        else if (gameManager.currentState == GameManager.GameState.lvl004)
+        } else if (gameManager.currentState == GameManager.GameState.lvl004)
         {
-            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
-            {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad" }, new string[] { "What are you doing here bud?", "I just came to say hi :)", "I see. Well, Hi there!" }, true, new string[] { "Left", "Right", "Left" }, new int[] { 2, 1, 3 });
-            }
-        }
-        else if (gameManager.currentState == GameManager.GameState.lvl005)
+            canInteract = false;
+        } else if (gameManager.currentState == GameManager.GameState.lvl005)
         {
-            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
-            {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad" }, new string[] { "What are you doing here bud?", "I just came to say hi :)", "I see. Well, Hi there!" }, true, new string[] { "Left", "Right", "Left" }, new int[] { 2, 1, 3 });
-            }
+            canInteract = false;
         }
 
-
+        
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
+        if (canInteract)
+        {
+
         if (other.name == "Heidi")
         {
             NPCoutline.enabled = true;
@@ -86,10 +91,13 @@ public class DadNPCScript : MonoBehaviour
             
 
         }
+
+        }
     }
 
     protected virtual void OnTriggerExit(Collider other)
     {
+        if (canInteract) {
         if (other.name == "Heidi")
         {
             NPCoutline.enabled = false;
@@ -99,6 +107,8 @@ public class DadNPCScript : MonoBehaviour
             interactText.text = "";
 
             textTriggerScript.StopAllDialogue();
+
+        }
 
         }
     }
