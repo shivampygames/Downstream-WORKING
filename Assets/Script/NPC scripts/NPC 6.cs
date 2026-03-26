@@ -62,7 +62,7 @@ public class NPC6 : MonoBehaviour
 
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Ellie", "Ellie", "Leo", "Eve", "Ellie" }, new string[] { "There's something... with this fish.", "Why does it look like this?", "That... is odd...", "It's probably just sick. Throw it back into the water.", "Oh, poor thing. Okay." }, true, new string[] { "Left", "Left", "Left", "Left", "Left" }, new int[] { 0, 0, 0, 0, 0 });
+                textTriggerScript.ScriptTriggered(new string[] { "Ellie", "Ellie", "Leo", "Eve", "Ellie", "" }, new string[] { "There's something... with this fish.", "Why does it look like this?", "That... is odd...", "It's probably just sick. Throw it back into the water.", "Oh, poor thing. Okay.", "[Everyone scatters again.]" }, true, new string[] { "Left", "Left", "Left", "Left", "Left", "None" }, new int[] { 0, 0, 0, 0, 0, 0 });
 
             }
         }
@@ -72,7 +72,7 @@ public class NPC6 : MonoBehaviour
 
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Ellie", "Ellie", "Leo", "Eve", "Ellie" }, new string[] { "There's something... with this fish.", "Why does it look like this?", "That... is odd...", "It's probably just sick. Throw it back into the water.", "Oh, poor thing. Okay." }, true, new string[] { "Left", "Left", "Left", "Left", "Left" }, new int[] { 0, 0, 0, 0, 0 });
+                textTriggerScript.ScriptTriggered(new string[] { "Ellie", "Ellie", "Leo", "Eve", "Ellie", "" }, new string[] { "There's something... with this fish.", "Why does it look like this?", "That... is odd...", "It's probably just sick. Throw it back into the water.", "Oh, poor thing. Okay.", "[Everyone scatters again.]" }, true, new string[] { "Left", "Left", "Left", "Left", "Left", "None" }, new int[] { 0, 0, 0, 0, 0, 0 });
                 
             }
 

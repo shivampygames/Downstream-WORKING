@@ -65,10 +65,18 @@ public class DadNPCScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl005)
         {
+            
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl006)
+        {
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad" }, new string[] { "What are you doing here bud?", "I just came to say hi :)", "I see. Well, Hi there!" }, true, new string[] { "Left", "Right", "Left" }, new int[] { 2, 1, 3 });
+                textTriggerScript.ScriptTriggered(new string[] { "Dad" }, new string[] { "There you are! Ready for dinner?" }, true, new string[] { "Left" }, new int[] { 3 });
             }
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl007)
+        {
+            
         }
 
 

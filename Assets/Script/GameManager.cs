@@ -2,11 +2,12 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
 
-    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*go talk to dad (AT THIS POINT HE EATS THE FISH)*/, lvl007 /* go sleep */ }
+    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*nighttime, go meet dad*/, lvl007 /* eat dinner with him */, lvl008 /* go sleep*/ }
 
     public GameState currentState;
 
@@ -26,6 +27,30 @@ public class GameManager : MonoBehaviour
     public GameObject theArrow;
 
     public GameObject fishingInstructionsIdk;
+
+    public float dayTimer = 0f;
+
+    public GameObject timerBox;
+    public GameObject timeUntilDay;
+
+    public GameObject fire;
+
+
+    // post provessing stuff
+    public Volume volume;
+    public VolumeProfile normalDay1;
+    public VolumeProfile normalNight1;
+
+    // time counters fr
+    int timer4thdigit = 0;
+    int timer3rddigit = 0;
+    int timer2nddigit = 0;
+    int timer1stdigit = 0;
+    public TMP_Text fourthDigit;
+    public TMP_Text thirdDigit;
+    public TMP_Text secondDigit;
+    public TMP_Text firstDigit; 
+    bool ranThing = false;
 
     // things the arrow needs to look at: 
     public GameObject dadPosition;
@@ -55,6 +80,16 @@ public class GameManager : MonoBehaviour
 
     bool startedTalking = false;
 
+    // level 5 variables
+    bool setLevel5 = false;
+
+    // level 6 variables
+    bool setLevel6 = false;
+
+    //level 7 variables
+    bool setLevel7 = false;
+    bool startedTalkingToDad7 = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -62,6 +97,10 @@ public class GameManager : MonoBehaviour
         UI.SetActive(false);
         theArrow.SetActive(false);
         fishingInstructionsIdk.SetActive(false);
+        timerBox.SetActive(false);
+        timeUntilDay.SetActive(false);
+        fire.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -89,6 +128,12 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.lvl005:
                 lvl005();
+                break;
+            case GameState.lvl006:
+                lvl006();
+                break;
+            case GameState.lvl007:
+                lvl007(); 
                 break;
 
 
@@ -118,6 +163,7 @@ public class GameManager : MonoBehaviour
         if (setUpLevel1 == false)
         {
             textTriggerScript.ScriptTriggered(new string[] { "", "Dad" }, new string[] { "[You wake up in your tent.]", "Heidi!!! It's time to wake up!" }, true, new string[] { "None", "Left" }, new int[] { 0, 1 });
+            volume.profile = normalDay1;
             setUpLevel1 = true;
         }
 
@@ -247,7 +293,59 @@ public class GameManager : MonoBehaviour
 
     private void lvl005()
     {
-        objective.text = "Get back to fishing. It'll be evening soon, so you don't have much time.";
+        
+        objective.text = "You should probably get back to fishing soon.";
+        
+        if (setLevel5 == false)
+        {
+            dayTimer = 0;
+            ranThing = false;
+            timerBox.SetActive(true);
+            timeUntilDay.SetActive(true);
+            setLevel5 = true;
+        }
+
+        if (CountDownTimer(0, 3, 0) == "over")
+        {
+            currentState = GameState.lvl006;
+        }
+        
+
+    }
+
+    private void lvl006()
+    {
+        if (setLevel6 == false)
+        {
+            fire.SetActive(true);
+            objective.text = "It's dinner time! Go talk to your dad.";
+            volume.profile = normalNight1;
+            timerBox.SetActive(false);
+            timeUntilDay.SetActive(false);
+        }
+        Debug.Log("six sevennnnn");
+
+        if (textTriggerScript.sequenceDialogue != null)
+        {
+            startedTalkingToDad7 = true;
+        }
+
+        if (startedTalkingToDad7 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                currentState = GameState.lvl007;
+            }
+        }
+    }
+
+    private void lvl007()
+    {
+        Debug.Log("part two of level 67");
+        if (setLevel7 == false)
+        {
+
+        }
     }
 
     private void ArrowPoint(GameObject target)
@@ -268,4 +366,63 @@ public class GameManager : MonoBehaviour
     {
         currentState = GameState.lvl002;
     }
+
+    public string CountDownTimer(int howManyMinutes, int howManySecondsFirstPlace, int howManySecondsSecondPlace)
+    {
+        float lvl5daytimer;
+        float timeRemaining;
+        if (ranThing == false)
+        {
+            timeRemaining = howManySecondsSecondPlace + (howManySecondsFirstPlace*10) + (howManyMinutes*60);
+            if (howManyMinutes != 0)
+            {
+                timer2nddigit = howManyMinutes;
+                timer3rddigit = howManySecondsFirstPlace;
+                timer4thdigit = howManySecondsSecondPlace;
+            }
+            ranThing = true;
+        }
+
+
+        dayTimer += Time.deltaTime;
+        lvl5daytimer = Mathf.Round(dayTimer);
+        Debug.Log(lvl5daytimer);
+
+        int timeRemainingInt = (int)(howManySecondsSecondPlace + (howManySecondsFirstPlace * 10) + (howManyMinutes * 60) - lvl5daytimer); 
+
+        int convertToNearestMinute = (int)(timeRemainingInt / 60);
+        timer2nddigit = convertToNearestMinute;
+        int remainingSeconds = (int)(timeRemainingInt - (convertToNearestMinute*60));
+        string timerSeconds = remainingSeconds.ToString();
+        if (timerSeconds.Length == 1)
+        {
+            timer3rddigit = 0;
+            //timer4thdigit = int.Parse(remainingSeconds.ToString()[0]);
+            timer4thdigit = remainingSeconds;
+        } else {
+            //timer3rddigit = remainingSeconds.ToString()[0];
+            //timer4thdigit = remainingSeconds.ToString()[1];
+            timer3rddigit = remainingSeconds / 10;
+            timer4thdigit = remainingSeconds % 10;
+        }
+
+        firstDigit.text = "0";
+        secondDigit.text = timer2nddigit.ToString();
+        thirdDigit.text = timer3rddigit.ToString();
+        fourthDigit.text = timer4thdigit.ToString();
+
+
+
+        if (lvl5daytimer >= howManySecondsSecondPlace + (howManySecondsFirstPlace * 10) + (howManyMinutes * 60))
+        {
+            lvl5daytimer = 0;
+            return "over";
+        }
+        else
+        {
+            return "still going";
+        }
+
+    }
+
 }
