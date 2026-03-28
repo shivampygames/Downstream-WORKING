@@ -11475,9 +11475,23 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fec0dfaa7b65e3842af5ff098ef6370f, type: 3}
   - {fileID: 21300000, guid: 76ed2736a714a9f4c8f0ffee0e403193, type: 3}
   - {fileID: 21300000, guid: c69b53385d097f843951ec7763ada09a, type: 3}
+  - {fileID: 21300000, guid: 458232c9d57baa54d96d58491a414dcc, type: 3}
+  - {fileID: 21300000, guid: a6123bfbb7cb42f42aaba262707a4b04, type: 3}
+  - {fileID: 21300000, guid: e214d52b356714a4dab884ff54f93de5, type: 3}
+  - {fileID: 21300000, guid: 74248c8901dba0a4ca4f978ad73e1ae1, type: 3}
+  - {fileID: 21300000, guid: d214f360c7417d94e8a7f09c93ce9be9, type: 3}
+  - {fileID: 21300000, guid: 10fd697bd77d6274d9fd775cbe7d435a, type: 3}
   rightSprites:
   - {fileID: -1925048033, guid: d7e41dbc6b0dc4e42844f78464e453ed, type: 3}
   - {fileID: 21300000, guid: e6b55fe8fe5124947ae62de530d8fcab, type: 3}
+  - {fileID: 21300000, guid: 1b3ffb42ecd93aa46bb3a36476fbe8c7, type: 3}
+  - {fileID: 21300000, guid: a1b0734c2641eb04b80dd673e585050d, type: 3}
+  - {fileID: 21300000, guid: c0022fcf103587c4e868fbbc8f38f698, type: 3}
+  - {fileID: 21300000, guid: 6ef7314ff45752d49bc575403a9fe795, type: 3}
+  - {fileID: 21300000, guid: 2f2d9eb6bbd07844d8467b27cdf87c42, type: 3}
+  - {fileID: 21300000, guid: 25c9a3e5c3ddfbb41a9e9d55ec4625c3, type: 3}
+  - {fileID: 21300000, guid: 358928ca0587e574791e428d139b5a03, type: 3}
+  - {fileID: 21300000, guid: 37589c2b4dbe6a84bad8fbadae80dbb0, type: 3}
   cinematicBackground: {fileID: 746217007}
   cinematic: {fileID: 88675253}
   cinematicSprites:
@@ -14754,6 +14768,7 @@ MonoBehaviour:
   currentState: 0
   readyForLevel2: 0
   textTriggerScript: {fileID: 1341823873}
+  riverScript: {fileID: 1642297654}
   UI: {fileID: 146973062}
   objective: {fileID: 884562841}
   fishCount: {fileID: 671807619}
@@ -14766,6 +14781,9 @@ MonoBehaviour:
   volume: {fileID: 1363379555}
   normalDay1: {fileID: 11400000, guid: 5b61ddaa18007b84799ddc16869f3287, type: 2}
   normalNight1: {fileID: 11400000, guid: 6704e07af46a37240a610d3f83d37afb, type: 2}
+  redDay1: {fileID: 11400000, guid: 1231f121a276dc8409836c7884d30527, type: 2}
+  redSkiesEvening: {fileID: 11400000, guid: 7a91174498eb88c48a109ba7d61bb2f2, type: 2}
+  redDay2: {fileID: 11400000, guid: 434427f95fb7f404f8fa80f97cc6617f, type: 2}
   fourthDigit: {fileID: 497619665}
   thirdDigit: {fileID: 406329807}
   secondDigit: {fileID: 263798786}
@@ -14773,6 +14791,7 @@ MonoBehaviour:
   dadPosition: {fileID: 1804516313}
   riverPosition: {fileID: 795876318}
   theCommotionLocation: {fileID: 57780548}
+  tentBg: {fileID: 1313572094}
   riverSequenceStarted: 0
   startedTalkingToDad: 0
 --- !u!1 &1211875001
@@ -16181,6 +16200,81 @@ RectTransform:
   m_AnchoredPosition: {x: 96.581696, y: -152.8334}
   m_SizeDelta: {x: 1043.9319, y: 148.61554}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1313572094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1313572095}
+  - component: {fileID: 1313572097}
+  - component: {fileID: 1313572096}
+  m_Layer: 5
+  m_Name: Bg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1313572095
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313572094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1618709795}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 804.91, y: 464.4}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1313572096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313572094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 02b626f8a9a1504458b2a907bd109c9e, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1313572097
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313572094}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1318611430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19406,7 +19500,7 @@ Canvas:
   m_GameObject: {fileID: 1618709791}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1284870431}
   m_PlaneDistance: 1
   m_PixelPerfect: 1
@@ -19432,6 +19526,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1313572095}
   - {fileID: 1307497239}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

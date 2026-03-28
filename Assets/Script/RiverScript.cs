@@ -71,7 +71,7 @@ public class RiverScript : IInteractable
     }
     protected override void Update()
     {
-        
+
         if (gameManager.currentState == GameManager.GameState.backstory)
         {
             //runFishingScript(); 
@@ -99,6 +99,43 @@ public class RiverScript : IInteractable
         {
             interactTextBox.SetActive(false);
         } else if (gameManager.currentState == GameManager.GameState.lvl005)
+        {
+            interactTextBox.SetActive(true);
+        } else if (gameManager.currentState == GameManager.GameState.lvl006) 
+        { 
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl007)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl008)
+        {
+            runFishingScript();
+        } else if (gameManager.currentState == GameManager.GameState.lvl009 || gameManager.currentState == GameManager.GameState.lvl010)
+        {
+            interactTextBox.SetActive(false);
+        } else if (gameManager.currentState == GameManager.GameState.lvl011)
+        {
+            runFishingScript();
+        } else if (gameManager.currentState == GameManager.GameState.lvl012)
+        {
+            interactTextBox.SetActive(false);
+        } else if (gameManager.currentState == GameManager.GameState.lvl013)
+        {
+            runFishingScript();
+        } else if (gameManager.currentState == GameManager.GameState.lvl014)
+        {
+            runFishingScript();
+        } else if (gameManager.currentState == GameManager.GameState.lvl015)
+        {
+            interactTextBox.SetActive(false);
+        } else if (gameManager.currentState == GameManager.GameState.lvl016)
+        {
+            interactTextBox.SetActive(false);
+        } else if (gameManager.currentState == GameManager.GameState.lvl017)
+        {
+            interactTextBox.SetActive(false);
+        } else if (gameManager.currentState == GameManager.GameState.lvl018)
         {
             runFishingScript();
         }
@@ -174,8 +211,8 @@ public class RiverScript : IInteractable
             }
         }
 
-        //Debug.Log(percentChanceOfDisease);
-        //percentage.text = percentChanceOfDisease + "%";
+        Debug.Log(percentChanceOfDisease);
+        percentage.text = percentChanceOfDisease + "%";
 
         fishiesCaught.text = fishiesCaughtNumber.ToString();
     }

@@ -14,6 +14,11 @@ public class PlayerScript : MonoBehaviour
     public GameManager gameManager;
 
     private bool setLevelOne = false;
+    private bool setLevelEight = false;
+    private bool controlsAreEnabled = true;
+    private bool setLevel11 = false;
+    private bool setLevel14 = false;
+    private bool setLevel18 = false;
 
     void Start()
     {
@@ -61,9 +66,108 @@ public class PlayerScript : MonoBehaviour
             controls();
         } else if (gameManager.currentState == GameManager.GameState.lvl007)
         {
+            controls();
+            controlsAreEnabled = false;
+            vThirdPersonInput.enabled = false;
+            controlsAreEnabled = false;
 
         } else if (gameManager.currentState == GameManager.GameState.lvl008)
         {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+
+            if (setLevelEight == false)
+            {
+                transform.position = new Vector3(-5.34f, 0, 13.383f);
+
+                transform.rotation = Quaternion.Euler((new Vector3(0, 0, 0)));
+                setLevelEight = true;
+            }
+        } else if (gameManager.currentState == GameManager.GameState.lvl009)
+        {
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl010)
+        {
+            controls();
+            controlsAreEnabled = false;
+            vThirdPersonInput.enabled = false;
+
+        } else if (gameManager.currentState == GameManager.GameState.lvl011)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+
+            if (setLevel11 == false)
+            {
+                transform.position = new Vector3(-5.34f, 0, 13.383f);
+
+                transform.rotation = Quaternion.Euler((new Vector3(0, 0, 0)));
+                setLevel11 = true;
+            }
+
+        } else if (gameManager.currentState == GameManager.GameState.lvl011)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl012)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl013)
+        {
+            controlsAreEnabled = false;
+            vThirdPersonInput.enabled = false;
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl014)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+
+            if (setLevel14 == false)
+            {
+                transform.position = new Vector3(-5.34f, 0, 13.383f);
+
+                transform.rotation = Quaternion.Euler((new Vector3(0, 0, 0)));
+                setLevel14 = true;
+            }
+        } else if (gameManager.currentState == GameManager.GameState.lvl015)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+        } else if (gameManager.currentState ==GameManager.GameState.lvl016)
+        {
+            controlsAreEnabled = false;
+            vThirdPersonInput.enabled = false;
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl017)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+        } else if (gameManager.currentState == GameManager.GameState.lvl018)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
+            controls();
+
+            if (setLevel18 == false)
+            {
+                transform.position = new Vector3(-5.34f, 0, 13.383f);
+
+                transform.rotation = Quaternion.Euler((new Vector3(0, 0, 0)));
+                setLevel18 = true;
+            }
+
+        } else if (gameManager.currentState == GameManager.GameState.lvl019)
+        {
+            controlsAreEnabled = true;
+            vThirdPersonInput.enabled = true;
             controls();
         }
 
@@ -75,7 +179,7 @@ public class PlayerScript : MonoBehaviour
 
     void controls()
     {
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.Mouse1) && (controlsAreEnabled))
         {
             if (vThirdPersonCamera.lockCamera == true)
             {
