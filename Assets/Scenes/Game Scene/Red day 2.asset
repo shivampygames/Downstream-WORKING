@@ -15,19 +15,19 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 2.61
   contrast:
     m_OverrideState: 1
-    m_Value: 34
+    m_Value: 18
   colorFilter:
     m_OverrideState: 1
-    m_Value: {r: 0.7169812, g: 0.39750236, b: 0.38103712, a: 1}
+    m_Value: {r: 0.70440245, g: 0.4107195, b: 0.39207298, a: 1}
   hueShift:
     m_OverrideState: 0
     m_Value: -11
   saturation:
     m_OverrideState: 1
-    m_Value: -5
+    m_Value: -31
 --- !u!114 &-7150908151445832744
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -83,13 +83,41 @@ MonoBehaviour:
   active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.8770913, z: 0.6118099, w: 0.1098901}
+    m_Value: {x: 1, y: 0.89686686, z: 0.72435796, w: 0.1098901}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 0.8358252, y: 0.91590005, z: 1, w: -0.25641054}
+    m_Value: {x: 0.79397345, y: 0.88946265, z: 1, w: -0.25641054}
   gain:
     m_OverrideState: 1
     m_Value: {x: 0.9481253, y: 0.9688515, z: 1, w: -0.34798595}
+--- !u!114 &-3728412188074717688
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  color:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 0.003110504, b: 0, a: 1}
+  center:
+    m_OverrideState: 0
+    m_Value: {x: 0.5, y: 0.5}
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.46
+  smoothness:
+    m_OverrideState: 1
+    m_Value: 0.45
+  rounded:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +135,7 @@ MonoBehaviour:
   - {fileID: -7954943261192801740}
   - {fileID: -6330364176133072133}
   - {fileID: -7150908151445832744}
+  - {fileID: -3728412188074717688}
 --- !u!114 &7391497282958278780
 MonoBehaviour:
   m_ObjectHideFlags: 3

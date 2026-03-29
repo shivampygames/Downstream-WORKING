@@ -100,9 +100,11 @@ public class RiverScript : IInteractable
             interactTextBox.SetActive(false);
         } else if (gameManager.currentState == GameManager.GameState.lvl005)
         {
-            interactTextBox.SetActive(true);
+            runFishingScript();
+            //
         } else if (gameManager.currentState == GameManager.GameState.lvl006) 
-        { 
+        {
+            interactTextBox.SetActive(false);
         }
         else if (gameManager.currentState == GameManager.GameState.lvl007)
         {
@@ -136,6 +138,46 @@ public class RiverScript : IInteractable
         {
             interactTextBox.SetActive(false);
         } else if (gameManager.currentState == GameManager.GameState.lvl018)
+        {
+            runFishingScript();
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl019)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl020)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl021)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl022)
+        {
+            runFishingScript();
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl023)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl024)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl025)
+        {
+            runFishingScript();
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl026)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl027)
+        {
+            interactTextBox.SetActive(false);
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl028)
         {
             runFishingScript();
         }

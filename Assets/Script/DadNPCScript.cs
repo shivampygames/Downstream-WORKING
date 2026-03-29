@@ -82,7 +82,7 @@ public class DadNPCScript : MonoBehaviour
         {
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Heidi", "Dad", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "" }, new string[] {"Morning Dad!", "Hey, kiddo.", "...I have news.", "Everyone's been out fishing. We're finding a lot more cases of... fish with the disease... since we started today.", "How is it spreading to the fish?", "That's what we're trying to find out. Why don't you go and try to catch some fish for now? I'll keep you updated.", "OK.", "Alright, kiddo. Just ... it might be harder than it's been so far. But I know you're doing your best, no matter what.", "Yes, Dad. I won't let us starve.", "...Oh. You know that's not your burden to worry about, Heidi-", "[You left.]" }, true, new string[] { "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "None" }, new int[] { 2, 1, 4, 5, 4, 7, 8, 3, 4, 6, 0 });
+                textTriggerScript.ScriptTriggered(new string[] { "Heidi", "Dad", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "" }, new string[] {"Morning Dad!", "Hey, kiddo.", "...I have news.", "Everyone's been out fishing since this morning. And... we're finding a lot more cases of... fish with the disease... since we started today.", "How is it spreading to the fish?", "That's what we're trying to find out. Why don't you go and try to catch some fish for now? I'll keep you updated.", "OK.", "Alright, kiddo. Just ... it might be harder than it's been so far, since some of the fish are diseased. But I know you're doing your best, no matter what.", "Yes, Dad. I won't let anyone in that city starve.", "...Oh. You know that's not your burden to worry about, Heidi-", "[You left.]" }, true, new string[] { "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "None" }, new int[] { 2, 1, 4, 5, 4, 7, 8, 3, 4, 6, 0 });
             }
         } else if (gameManager.currentState == GameManager.GameState.lvl009)
         {
@@ -122,7 +122,7 @@ public class DadNPCScript : MonoBehaviour
         {
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad" }, new string[] { "Do you want dinner, Heidi?", "No. I'm not hungry.", "...Oh. If you're sure, then. Good night, sweetie." }, true, new string[] { "Left", "Right", "Left" }, new int[] { 1, 4, 4 });
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad" }, new string[] { "Well, I'm glad they agreed to a compromise. Let's just hope this has an effect. Do you want dinner, Heidi?", "I'm glad too. ...But I'm not hungry.", "...Oh, if you're sure, then. Good night, sweetie." }, true, new string[] { "Left", "Right", "Left" }, new int[] { 1, 4, 4 });
             }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl018)
@@ -130,6 +130,43 @@ public class DadNPCScript : MonoBehaviour
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
                 textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad" }, new string[] { "Good morning, kiddo.", "Hi Dad!", "I have good news. The spread of the fish disease wasn't too bad today. Probably because they waited to put in fertilizer and didn't do it right before the rain.", "That's good!!! So is it fixed now?", "Not quite. There's still a lot of diseased fish in the water. But we're working on finding other ways to stop it.", "Okay. I'll go back to fishing now.", "Alright, bud. I'll tell you when we find a solution.",  "And I can help?", "Of course you can help. People are going hungry and we need all the help we get get. See you later, then." }, true, new string[] { "Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right", "Left" }, new int[] { 2, 1, 3, 2, 2, 3, 1, 1, 3 });
+            }
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl019)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad" }, new string[] { "Come in, Heidi, let's eat dinner." }, true, new string[] { "Left" }, new int[] { 1 });
+            }
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl023)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad" }, new string[] { "Come in, Heidi." }, true, new string[] { "Left" }, new int[] { 4 });
+            }
+        }
+
+        else if (gameManager.currentState == GameManager.GameState.lvl025)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad" }, new string[] { "Heidi. You need to know this.", "No one's been able to catch any fish so far today. It's getting really hard.", "Can I still try though?", "I mean... I'm not sure if it'll work...", "Dad, please. People depend on us for their food! I can't let them starve!", "...Well, alright, kiddo. Go ahead." }, true, new string[] { "Left", "Left", "Right", "Left", "Right", "Left" }, new int[] { 4, 7, 9, 5, 5, 6 });
+            }
+        }
+
+        else if (gameManager.currentState == GameManager.GameState.lvl026)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad" }, new string[] { "Hey, kiddo. Come in." }, true, new string[] { "Left" }, new int[] { 5 });
+            }
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl028)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "", "", "Heidi", "Dad", "", "Dad", "Dad", "Dad", "Dad", "Heidi", "Dad", "Dad", "Heidi", "Dad" }, new string[] { "Heidi! Did you notice?? The pollution- the fish-", "[Around you, the whole village was chattering excitedly.]", "[By the sound of it, the fish seemed to be coming back, too.]", "It's gone, Dad! I fixed it!", "You... fixed it?", "[You tell your dad everything about what happened.]", "Well... kiddo... wow.", "............", "I don't know what to say. I'm so proud of you.", "This could actually end up helping a lot of people, more than just the part of the city we're supposed to be taking care of. I'm going to call up newspapers and such to spread the word.", "Okay! I'm going to go keep fishing!", "Yeah, go ahead.", "...Psst. Heidi.", "Yeah?", "I'm proud of you. :)" }, true, new string[] { "Left", "None", "None", "Right", "Left", "None", "Left", "Left", "Left", "Left", "Right", "Left", "Left", "Right", "Left" }, new int[] { 1, 0, 0, 2, 2, 0, 3, 7, 1, 3, 3, 3, 1, 1, 2 });
             }
         }
 

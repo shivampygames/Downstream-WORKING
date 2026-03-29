@@ -14779,9 +14779,9 @@ MonoBehaviour:
   timeUntilDay: {fileID: 1148953827}
   fire: {fileID: 165551583}
   volume: {fileID: 1363379555}
-  normalDay1: {fileID: 11400000, guid: 5b61ddaa18007b84799ddc16869f3287, type: 2}
+  normalDay1: {fileID: 11400000, guid: 9d4d0c9cdccb6cc42ae23366c8476770, type: 2}
   normalNight1: {fileID: 11400000, guid: 6704e07af46a37240a610d3f83d37afb, type: 2}
-  redDay1: {fileID: 11400000, guid: 1231f121a276dc8409836c7884d30527, type: 2}
+  redDay1: {fileID: 11400000, guid: d40037fa1ddfb9d47a6e82c3022bebd9, type: 2}
   redSkiesEvening: {fileID: 11400000, guid: 7a91174498eb88c48a109ba7d61bb2f2, type: 2}
   redDay2: {fileID: 11400000, guid: 434427f95fb7f404f8fa80f97cc6617f, type: 2}
   fourthDigit: {fileID: 497619665}
@@ -16767,8 +16767,8 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 5b61ddaa18007b84799ddc16869f3287, type: 2}
+  weight: 0.748
+  sharedProfile: {fileID: 11400000, guid: 9d4d0c9cdccb6cc42ae23366c8476770, type: 2}
 --- !u!4 &1363379556
 Transform:
   m_ObjectHideFlags: 0
@@ -19500,7 +19500,7 @@ Canvas:
   m_GameObject: {fileID: 1618709791}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1284870431}
   m_PlaneDistance: 1
   m_PixelPerfect: 1

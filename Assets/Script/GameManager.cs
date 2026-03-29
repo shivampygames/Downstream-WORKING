@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
 
-    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*nighttime, go meet dad*/, lvl007 /* eat dinner with him */, lvl008 /* go sleep*/, lvl009, lvl010, lvl011, lvl012, lvl013, lvl014, lvl015, lvl016, lvl017, lvl018, lvl019 }
+    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*nighttime, go meet dad*/, lvl007 /* eat dinner with him */, lvl008 /* go sleep*/, lvl009, lvl010, lvl011, lvl012, lvl013, lvl014, lvl015, lvl016, lvl017, lvl018, lvl019, lvl020, lvl021, lvl022, lvl023, lvl024, lvl025, lvl026, lvl027, lvl028 }
 
     public GameState currentState;
 
@@ -159,6 +159,60 @@ public class GameManager : MonoBehaviour
     bool startedTalkingLevel19 = false;
     bool finishedTalkingLevel19 = false;
 
+
+    // level 20
+
+    bool setLevel20 = false;
+    bool startedTalkingLevel20 = false;
+    bool finishedTalkingLevel20 = false;
+
+    //level 21
+
+    bool setLevel21 = false;
+    bool startedTalkingLevel21 = false;
+    bool finishedTalkingLevel21 = false;
+
+    //lvl 22
+    bool setLevel22 = false;
+    bool startedTalkingLevel22 = false;
+    bool finishedTalkingLevel22 = false;
+
+    //lvl 23
+    bool setLevel23 = false;
+    bool startedTalkingLevel23 = false;
+    bool finishedTalkingLevel23 = false;
+
+    //lvl 24
+
+    bool setLevel24 = false;
+    bool startedTalkingLevel24 = false;
+    bool finishedTalkingLevel24 = false;
+
+    // lvl 25
+    bool setLevel25 = false;
+    bool startedTalkingLevel25 = false;
+    bool finishedTalkingLevel25 = false;
+
+
+    // lvl 26
+    bool setLevel26 = false;
+    bool startedTalkingLevel26 = false;
+    bool finishedTalkingLevel26 = false;
+
+
+    // lvl 27
+    bool setLevel27 = false;
+    bool startedTalkingLevel27 = false;
+    bool finishedTalkingLevel27 = false;
+    bool startedStoryLevel27 = false;
+    bool finishedStoryLevel27 = false;
+
+
+    // lvl 28
+    bool setLevel28 = false;
+    bool startedTalkingLevel28 = false;
+    bool finishedTalkingLevel28 = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -240,6 +294,37 @@ public class GameManager : MonoBehaviour
             case GameState.lvl019:
                 lvl019();
                 break;
+            case GameState.lvl020:
+                lvl020();
+                break;
+            case GameState.lvl021:
+                lvl021();
+                break;
+            case GameState.lvl022: 
+                lvl022();
+                break;
+            case GameState.lvl023:
+                lvl023();
+                break;
+            case GameState.lvl024:
+                lvl024();
+                break;
+            case GameState.lvl025:
+                lvl025();
+                break;
+            case GameState.lvl026:
+                lvl026();
+                break;
+            case GameState.lvl027:
+                lvl027();
+                break;
+            case GameState.lvl028:
+                lvl028();
+                break;
+            
+
+
+
 
 
 
@@ -407,7 +492,7 @@ public class GameManager : MonoBehaviour
     private void lvl005()
     {
         
-        objective.text = "You should probably get back to fishing soon.";
+        objective.text = "You should probably get back to fishing soon. Try to catch as much as you can!";
         
         if (setLevel5 == false)
         {
@@ -415,6 +500,7 @@ public class GameManager : MonoBehaviour
             ranThing = false;
             timerBox.SetActive(true);
             timeUntilDay.SetActive(true);
+            
             setLevel5 = true;
         }
 
@@ -717,6 +803,7 @@ public class GameManager : MonoBehaviour
             if (textTriggerScript.sequenceDialogue == null)
             {
                 finishedTalkingLevel14 = true;
+                objective.text = "Go fish!!!!!";
             }
         }
 
@@ -874,7 +961,253 @@ public class GameManager : MonoBehaviour
         if (setLevel19 == true)
         {
             Debug.Log("level 19 lets gooooo");
+            Debug.Log("is sequence dialogue null?" + textTriggerScript.sequenceDialogue == null);
+            if (textTriggerScript.sequenceDialogue != null) { 
+                startedTalkingLevel19 = true;
+
+            }
+
+        }
+
+        if (startedTalkingLevel19 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel19 = true;
+                currentState = GameState.lvl020;
+            }
+        }
+    }
+
+    private void lvl020()
+    {
+        if (setLevel20 == false)
+        {
+            tentBg.SetActive(true);
+            textTriggerScript.ScriptTriggered(new string[] { "Heidi", "Dad", "Heidi", "Dad", "Dad", "Heidi", "Dad", "Dad", "Heidi", "Dad" }, new string[] {"Dad, the fish is getting worse.", "I know, Heidi. It IS getting worse.", "Did we find a solution?", "Well, we're going to try something.", "Tomorrow a bunch of us are going to plant shrubs and things on the edge of the river where the chemicals are getting in.", "How's that going to help?", "The plants' roots are going to form a kind of shield in the soil. They'll trap the excess fertilizer before it can get into the river.", "At least, that's the plan. We don't know how helpful it's going to be.", "Can I come with you?", "Yes, of course. Go to bed now, we're leaving early."}, true, new string[] { "Right", "Left", "Right", "Left", "Left", "Right", "Left", "Left", "Right", "Left" }, new int[] { 4, 2, 9, 7, 5, 1, 3, 7, 2, 1 });
+            setLevel20 = true;
+        }
+
+        if (setLevel20 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel20 = true;
+                currentState = GameState.lvl021;
+            }
+        }
+    }
+
+    private void lvl021()
+    {
+        if (setLevel21 == false)
+        {
+            tentBg.SetActive(false);
+            volume.profile = redDay1;
+            // at this point js get the text to do the whole story thing
+            textTriggerScript.ScriptTriggered(new string[] {"", "", "", "", "", "", "", "" }, new string[] {"[You walk with your dad and a few more people from your camp. You travel through the cold forest.]", "[It's hard not to notice the air being red with pollution.]", "[Or the plants on the ground being dead and diseased with the infection.]", "[Occasionally, you even spot a few wild animals, all of them similarly diseased. The forest looks bleak.]", "[Eventually, you make it to the edge of the river, just outside the farming settlement.]", "[You and your villagers spend the whole day hard at work planting shrubs on the edge of it.]", "[Eventually, the job gets done.]", "[And you leave to go back to camp.]" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic"}, new int[] {1, 1, 1, 1, 1, 1, 1, 1});
+
+            setLevel21 = true;
+        }
+
+        if (setLevel21 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel21 = true;
+                currentState = GameState.lvl022;
+            }
+        }
+    }
+
+    private void lvl022()
+    {
+        if (setLevel22== false)
+        {
+            objective.text = "You're home. Time to continue fishing.";
+            riverScript.GameDifficultyFromZeroToSeven = 6;
+
+            dayTimer = 0;
+            ranThing = false;
+            timerBox.SetActive(true);
+            timeUntilDay.SetActive(true);
+
+            setLevel22 = true;
+
+        }
+
+        if (CountDownTimer(2, 0, 0) == "over")
+        {
+            currentState = GameState.lvl023;
+        }
+    }
+
+    private void lvl023()
+    {
+        if (setLevel23 == false)
+        {
             
+            volume.profile = normalNight1;
+            objective.text = "Go eat dinner with your dad..";
+            setLevel23 = true;
+        }
+
+        if (setLevel23 == true)
+        {
+            if (textTriggerScript.sequenceDialogue != null)
+            {
+                startedTalkingLevel23 = true;
+            }
+        }
+
+        if (startedTalkingLevel23 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel23 = true;
+                currentState = GameState.lvl024;
+            }
+        }
+    }
+
+    private void lvl024()
+    {
+        if (setLevel24 == false)
+        {
+            tentBg.SetActive(true);
+            textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Heidi", "Dad", "Heidi" }, new string[] {"How was your day, Heidi?", "It's getting really hard to catch the fish. And I think the air is getting worse.", "...Yeah.", "........", "I'm going to be honest, Heidi. At the rate things are going, we might not be able to keep fishing.", "But people depend on us for food! We depend on OURSELVES for food!", "There's no food here anymore. We're better off finding someplace else.", "But...", "...........", "Heidi, listen. We'll think about it and then decide, okay? Let's just go to sleep for now.", "...Okay. Good night."}, true, new string[] { "Left", "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Right", "Left", "Right" }, new int[] { 1, 7, 4, 7, 5, 6, 4, 9, 5, 7, 8 });
+            setLevel24 = true;
+        }
+
+        if (setLevel24 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel24 = true;
+                currentState = GameState.lvl025; 
+            }
+        }
+    }
+
+    private void lvl025()
+    {
+        if (setLevel25 == false)
+        {
+            tentBg.SetActive(false);
+            volume.profile = redDay2;
+            objective.text = "Say good morning to dad";
+            dayTimer = 0;
+            ranThing = false;
+            timerBox.SetActive(true);
+            timeUntilDay.SetActive(true);
+            riverScript.GameDifficultyFromZeroToSeven = 6;
+            setLevel25 = true;
+        }
+
+        if (setLevel25 == true)
+        {
+            if (textTriggerScript.sequenceDialogue != null)
+            {
+                startedTalkingLevel25 = true;
+            }
+        }
+
+        if (startedTalkingLevel25 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel25 = true;
+                objective.text = "Fish.";
+            }
+        }
+
+        if (CountDownTimer(2, 0, 0) == "over")
+        {
+            currentState = GameState.lvl026;
+        }
+
+    }
+
+    private void lvl026()
+    {
+        if (setLevel26 == false)
+        {
+            volume.profile = normalNight1;
+            objective.text = "Go talk to dad.";
+            setLevel26 = true;
+        }
+        
+        if (setLevel26 == true )
+        {
+            if (textTriggerScript.sequenceDialogue != null)
+            {
+                startedTalkingLevel26 = true;
+
+            }
+        }
+
+        if (startedTalkingLevel26 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel26 = true;
+                currentState = GameState.lvl027;
+            }
+        }
+
+    }
+
+    private void lvl027()
+    {
+        if (setLevel27 == false)
+        {
+            tentBg.SetActive(true);
+            textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Heidi", "Dad", "Heidi", "Dad" }, new string[] {"Heidi. It's getting worse. We should leave tomorrow. A few others are talking about leaving, too.", "But...! We're not going to try to save the fish? Or the forest animals?", "I don't think they can be saved. Not unless the farmers quit it with the pesticides and fertilizers.", "But they're never going to do that!", "That's right. The farmers have to feed themselves, too. It would have been nice if they could do it a little more sustainably, but...", "...............", "I want to go on a walk.", "It can't wait until the morning, bud?", "No. Can I go on a walk now? Please?", "...Alright... Be safe."}, true, new string[] { "Left", "Right", "Left", "Right", "Left", "Right", "Right", "Left", "Right", "Left" }, new int[] { 5, 6, 7, 9, 1, 6, 7, 5, 4, 7 });
+            setLevel27 = true;
+        }
+
+        if (setLevel27 == true)
+        {
+            if (textTriggerScript.sequenceDialogue == null)
+            {
+                finishedTalkingLevel27 = true;
+            }
+
+            if (finishedTalkingLevel27 == true && startedStoryLevel27 == false) { 
+                // at this point make the farming background show 
+                textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] { "[You walk alongside the river through the trees of the forest. Everything is just as bleak as you remember.]", "[After a while of walking, you end up back at the spot where you and the others had grown the shrubs.]", "[Walking closer, you noticed something, though.]", "[There was a plant. One that was healthy and fresh. Uninfected.]", "[You saw it was growing from the fish scraps you'd left behind from your lunch.]", "[That was interesting. How was it growing without any fertilizer?]", "[Then you realized something. The fish WAS the fertilizer.]", "[That made sense, of course- the fish would have nutrients in it that the plants could use to grow.]", "[You looked up. The village of farmers was just across the river and you could easily show them. You eagerly ran to them.]", "Hey... you're that child from the fishers. What are you doing here, kid?", "I found a fertilizer!!! I found something you can use that's not chemicals!!!", "...What are you talking about?", "Look! It's in the forest! I'll show you!" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Left", "Right", "Left", "Right" }, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 3});
+                startedStoryLevel27 = true;
+            }
+
+            if (startedStoryLevel27 == true)
+            {
+                if (textTriggerScript.sequenceDialogue == null && finishedStoryLevel27 == false)
+                {
+                    // at this point i guess make the background the plant in the forest again
+                    textTriggerScript.ScriptTriggered(new string[] { "Farmer", "Heidi", "Farmer", "Farmer", "Farmer", "Heidi", "Farmer", "Heidi", "Farmer", "Heidi", "Farmer", "Heidi", "" }, new string[] {"What... is this?", "Look! It's a healthy plant.", "Healthy?? No way, that's impossi-", "......................", "...How did you grow this?", "It grew from the fish!!", "This is... amazing. Fish scraps can be used as a fertilizer, then?", "Yes!!!! You can use them if you want!! I think it'll be useful for your plants!!", "...I don't suppose you're going to give us your fish so we can use it?", "I WILL give you my fish! But two conditions. You have to promise not to use any more chemicals. And allllll the extra food you need to give to hungry people back at the city.", ".........We'll test out your fish scraps fertilizer theory and then let you know.", "Okay!!!", "[They leave. Heidi goes home.]" }, true, new string[] { "Left", "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right", "None" }, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+                    finishedStoryLevel27 = true;
+                }
+            }
+
+            if (finishedStoryLevel27 == true)
+            {
+                if (textTriggerScript.sequenceDialogue == null)
+                {
+                    // remove the previous backgrounds and stuff
+                    currentState = GameState.lvl028;
+                    fire.SetActive(false);
+                }
+            }
+
+        }
+
+    }
+
+    private void lvl028()
+    {
+        if (setLevel28 == false)
+        {
+            volume.profile = normalDay1;
         }
     }
 
