@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
 
-    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*nighttime, go meet dad*/, lvl007 /* eat dinner with him */, lvl008 /* go sleep*/, lvl009, lvl010, lvl011, lvl012, lvl013, lvl014, lvl015, lvl016, lvl017, lvl018, lvl019, lvl020, lvl021, lvl022, lvl023, lvl024, lvl025, lvl026, lvl027, lvl028 }
+    public enum GameState { backstory, lvl001 /* first dialogue */, lvl002andahalf /* the text telling what to do */, lvl002 /* first fishing wait until caught 10 fish*/, lvl003 /*interruption lol with the people*/, lvl004 /*have the converseation with people bro*/, lvl005 /*pop up with the daytime timer thing*/, lvl006 /*nighttime, go meet dad*/, lvl007 /* eat dinner with him */, lvl008 /* go sleep*/, lvl009, lvl010, lvl011, lvl012, lvl013, lvl014, lvl015, lvl016, lvl017, lvl018, lvl019, lvl020, lvl021, lvl022, lvl023, lvl024, lvl025, lvl026, lvl027, lvl028, lvl029 }
 
     public GameState currentState;
 
@@ -213,6 +213,11 @@ public class GameManager : MonoBehaviour
     bool startedTalkingLevel28 = false;
     bool finishedTalkingLevel28 = false;
 
+    // lvl 29
+    bool setLevel29 = false;
+    bool pressedTheFinalOkButton = true; // temporarily
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -320,6 +325,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.lvl028:
                 lvl028();
+                break;
+            case GameState.lvl029:
+                lvl029();
                 break;
             
 
@@ -1208,6 +1216,39 @@ public class GameManager : MonoBehaviour
         if (setLevel28 == false)
         {
             volume.profile = normalDay1;
+            objective.text = "You did it! Talk to your dad and then catch fish!";
+
+            dayTimer = 0;
+            ranThing = false;
+            timerBox.SetActive(true);
+            timeUntilDay.SetActive(true);
+
+            setLevel28 = true;
+        }
+
+        if (CountDownTimer(0, 3, 0) == "over")
+        {
+            currentState = GameState.lvl029;
+        }
+    }
+
+    private void lvl029()
+    {
+        if (pressedTheFinalOkButton == true) { 
+            if (setLevel29 == false)
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] {"[Over the next few weeks, the fish scraps idea really did become popular.]", "[Many farms took up the fertilizer idea and many more people went out to go fishing. Farms began importing the natural fertilizer instead of chemicals with side effects.]", "[People learned other ways to stop runoff too- don't put fertilizer or pesticide on your crops right before it rains, and grow more plants along the edge of your fields to trap the runoff.]", "[They also figured out more things. For example, crop rotation. It's when you plant different kinds of crops each year.]", "[Crop rotation makes sure that one kind of plant doesn't just drain one kind of nutrient out of the soil. It makes the environment healthy and reduces need for fertilizer.]", "[In the end, the fish came back to life too, healthy and happy. And the forest animals that depended on the fish for food were also healthy and happy.]", "[In fact, the whole ecosystem was happy. And Heidi was happy too.]", "[When the food crisis finally calmed down, Heidi got to move back to the city where she hanged out with her friends and went to school. She got to play and learn instead of fishing and working.]", "[...Sadly, though, in the real world, the truth is that many people- including children- who suffer from food insecurity can't play or learn.]", "[They have to go work, either in the fields or just normal jobs, so that their family can have money for/or food.]", "[In fact, [statistic]", "[But one way to help start fighting that- and our environmental pollution problem- is by practicing sustainable farming.]", "[When you grow plants in your home or school or community garden, think about if you're being sustainable. What's in your fertilizers and pesticides? Is there a less harmful substitute you can use?]", "[And as a bonus, if you have extra food, you might even want to consider donating some to help people in need!]", "[Practicing sustainable farming is an easy way to help make our world better.]", "[That's the lesson Heidi learned. And so she lived happily ever after.]" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic" }, new int[] { 1, 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+                setLevel29 = true;
+            }
+
+            if (setLevel29 == true)
+            {
+                if (textTriggerScript.sequenceDialogue == null)
+                {
+                    Debug.Log("GAME OVERRRRRRRRRRRRRR");
+                }
+            }
+            
         }
     }
 
