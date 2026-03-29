@@ -23,6 +23,8 @@ public class PlayerScript : MonoBehaviour
     private bool setLevel28 = false;
     private bool setLevel25 = false;
 
+    public bool canProceedAfterNewspaper = false;
+
     void Start()
     {
 
@@ -70,7 +72,16 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl006)
         {
-            controls();
+            if (canProceedAfterNewspaper == false)
+            {
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            } else {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl007)
         {
@@ -354,4 +365,11 @@ public class PlayerScript : MonoBehaviour
 
         }
     }
+
+    
+    public void nextClickedNewspaperPlayerCanMoveNow()
+    {
+        canProceedAfterNewspaper = true;
+    }
+
 }

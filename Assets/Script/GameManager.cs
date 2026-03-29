@@ -4,6 +4,8 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -216,7 +218,21 @@ public class GameManager : MonoBehaviour
     // lvl 29
     bool setLevel29 = false;
     bool pressedTheFinalOkButton = true; // temporarily
-    
+
+
+    // newspaper stuff
+    public PlayerScript playerScript;
+    public GameObject mainNewspaperGameObject;
+    public UnityEngine.UI.Image newspaperImage;
+    public GameObject fail;
+    public GameObject pass;
+    public GameObject nextButton;
+    public GameObject retryButton;
+    public Animator newspaperAnimate;
+    public Animator timesUpAnimate;
+    public GameObject timesUpFish;
+    public Sprite[] newspaperSprites;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -350,7 +366,7 @@ public class GameManager : MonoBehaviour
     {
         if (backstoryScriptStarted == false)
         {
-            textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "" }, new string[] { "Once upon a time, there was a quiet, snowy forest. Peaceful and undisturbed in a valley between white-frosted mountains.", "Deep inside, a village was nestled between the evergreens. It was cozy and small and the people lived in cabins and tents.", "They called it Fisherville because of the flowing river that gave it life.", "Every day, the river gave its people beautiful healthy fish, in every color of the rainbow. Their food gave them energy to spend their days drawing, swimming, running and playing in the trees.", "Then at night, when the lights went down and all the forest animals came out, it was just as peaceful as the daytime.", "The village people would eat their fish by their fire in quiet contentment.", "They were happy in the knowledge that they were safe, and there was more than enough fish to keep all their bellies full.", "And in the morning, when the sun rose, the people of Fisherville would get up to visit their river. Preparing their food for the day." }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic" }, new int[] { 0, 0, 2, 3, 4, 5, 6, 7 });
+            textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] {"The world's farms have been plagued by a disease.", "It all started when the soil ran out of nutrients.", "People had been planting the same crops year after year. Those crops kept taking the same nutrients from the soil without putting anything in.", "After a while, there wasn't anything left in the ground for new plants to use.", "To fight this, new kinds of supercharged fertilizers and pesticides were invented. Everyone loved them and farms everywhere started using them.", "They claimed to make plants grow extra fast and healthy and strong. It was an attempt that came from good intentions.", "Instead, they turned everyone's crops mutated. Weird green growths appeared on the plants, and they turned sickly.", "Worse, it was contagious. The disease spread fast, leaving normal farms unusable and millions hungry. It turned into a widespread famine.", "People tried different tactics to fight the hunger. Some of them tried moving away from normal farms to grow their own plants.", "Some of them tried experimenting with different products to see which ones were the best- of course, none of them were completely clean, but some were less harmful than others.", "At some point, a group of starving people discovered a small patch in the forest.", "It was healthy and untouched by the disease. There wasn't enough space to farm there, but there was a river with fish in it. So the people decided to live there.", "For the past month, they had been catching fish and sending it back to the city in an attempt to feed people. Everything had been working great. So far." }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic" }, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
             backstoryScriptStarted = true;
         }
         if (textTriggerScript.sequenceDialogue == null)
@@ -524,11 +540,42 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel6 == false)
         {
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 4)
+            { 
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(false);
+                newspaperImage.sprite = newspaperSprites[0];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+            } else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[0];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
+
+
             fire.SetActive(true);
             objective.text = "It's dinner time! Go talk to your dad.";
             volume.profile = normalNight1;
             timerBox.SetActive(false);
             timeUntilDay.SetActive(false);
+
+            setLevel6 = true;
+
         }
         Debug.Log("six sevennnnn");
 
@@ -551,6 +598,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("part two of level 67");
         if (setLevel7 == false)
         {
+
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
             textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Heidi", "Heidi", "Dad", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad" }, new string[] { "Here's your food, bud.", "Thanks.", "So how was your day today? You do anything interesting?", "Spent the whole day working. Catching fish.", "...The usual.", "................", "...I see.", "Look, Heidi. I'm sorry this happened to us. I wish we could go back to the city too.", "I know. Ya told me before.", "I know I've told you before. I'm still sorry.", "It's okay.", "...Did you hear the news? One of our fish came out sick today. They're saying it looked like the same disease that happened to our crops.", "Ya, I was there.", "And what did you think?", "It sure looked like the same disease, I guess. I'm done eating now.", "Alright, sweetie. Y'know, I still have one of your favorite board games you used to love. We could play that before bed if you want.", "Don't we need to go to sleep early? So that we can go back to fishing tomorrow?", "...Are you sleepy?", "Yes.", "Ah. Okay, good night, kiddo. Love you." }, true, new string[] { "Left", "Right", "Left", "Right", "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right", "Left" }, new int[] { 3, 3, 1, 4, 7, 4, 6, 7, 4, 5, 9, 5, 7, 6, 4, 3, 7, 5, 8, 7 });
             tentBg.SetActive(true);
             setLevel7 = true;
@@ -1013,7 +1064,7 @@ public class GameManager : MonoBehaviour
             tentBg.SetActive(false);
             volume.profile = redDay1;
             // at this point js get the text to do the whole story thing
-            textTriggerScript.ScriptTriggered(new string[] {"", "", "", "", "", "", "", "" }, new string[] {"[You walk with your dad and a few more people from your camp. You travel through the cold forest.]", "[It's hard not to notice the air being red with pollution.]", "[Or the plants on the ground being dead and diseased with the infection.]", "[Occasionally, you even spot a few wild animals, all of them similarly diseased. The forest looks bleak.]", "[Eventually, you make it to the edge of the river, just outside the farming settlement.]", "[You and your villagers spend the whole day hard at work planting shrubs on the edge of it.]", "[Eventually, the job gets done.]", "[And you leave to go back to camp.]" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic"}, new int[] {1, 1, 1, 1, 1, 1, 1, 1});
+            textTriggerScript.ScriptTriggered(new string[] {"", "", "", "", "", "", "", "", "" }, new string[] {"[The next morning.]", "[You walk with your dad and a few more people from your camp. You travel through the cold forest.]", "[It's hard not to notice the air being red with pollution.]", "[Or the plants on the ground being dead and diseased with the infection.]", "[Occasionally, you even spot a few wild animals, all of them similarly diseased. The forest looks bleak.]", "[Eventually, you make it to the edge of the river, just outside the farming settlement.]", "[You and your villagers spend the whole day hard at work planting shrubs on the edge of it.]", "[Eventually, the job gets done.]", "[And you leave to go back to camp.]" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic"}, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1});
 
             setLevel21 = true;
         }
@@ -1215,6 +1266,7 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel28 == false)
         {
+            tentBg.SetActive(false);
             volume.profile = normalDay1;
             objective.text = "You did it! Talk to your dad and then catch fish!";
 
@@ -1226,7 +1278,7 @@ public class GameManager : MonoBehaviour
             setLevel28 = true;
         }
 
-        if (CountDownTimer(0, 3, 0) == "over")
+        if (CountDownTimer(2, 3, 0) == "over")
         {
             currentState = GameState.lvl029;
         }
@@ -1327,6 +1379,16 @@ public class GameManager : MonoBehaviour
             return "still going";
         }
 
+    }
+
+    public void NextButton()
+    {
+        newspaperAnimate.SetTrigger("NewspaperOut");
+    }
+
+    public void RetryButton()
+    {
+        newspaperAnimate.SetTrigger("NewspaperOut");
     }
 
 }

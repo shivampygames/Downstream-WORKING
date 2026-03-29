@@ -604,5 +604,45 @@ public class RiverScript : IInteractable
         }
     }
 
+    public void CloseFishingWindowAndClearFish()
+    {
+        base.interactTextBox.SetActive(false);
+        interactText.text = "";
+        if (fishingUiOpen != null)
+        {
+            water.enabled = false;
+            orangeOutline.enabled = false;
+            timerGameObject.SetActive(false);
+            //fishPicture.enabled = false;
+            if (fishingUiOpen != null)
+            {
+                StopCoroutine(fishingUiOpen);
+            }
+            fishingUiOpen = null;
+            if (fishTimer != null)
+            {
+                StopCoroutine(fishTimer);
+                fishTimer = null;
+            }
+            
+
+
+        }
+
+        if (fish != null)
+        {
+            StopCoroutine(fish);
+            fish = null;
+            foreach (Image tile in tiles)
+            {
+                tile.enabled = false;
+            }
+        }
+
+        fishiesCaughtNumber = 00;
+        fishiesCaught.text = "00";
+
+    }
+
 }
 
