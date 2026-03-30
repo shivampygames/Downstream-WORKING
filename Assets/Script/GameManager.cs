@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject fire;
 
+    public GameObject farmBg;
+
 
     // post provessing stuff
     public Volume volume;
@@ -68,6 +70,7 @@ public class GameManager : MonoBehaviour
     //public TMP_Text fishCountingText;
 
     public GameObject tentBg;
+    public GameObject woodsBg;
 
     //level 1 variables
     bool calledTheUI = false;
@@ -217,7 +220,7 @@ public class GameManager : MonoBehaviour
 
     // lvl 29
     bool setLevel29 = false;
-    bool pressedTheFinalOkButton = true; // temporarily
+    bool pressedTheFinalOkButton = false; // was true  temporarily
 
 
     // newspaper stuff
@@ -232,7 +235,10 @@ public class GameManager : MonoBehaviour
     public Animator timesUpAnimate;
     public GameObject timesUpFish;
     public Sprite[] newspaperSprites;
+    public TMP_Text newspaperFishCaught;
 
+
+    public GameObject plainBlack;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -244,7 +250,7 @@ public class GameManager : MonoBehaviour
         timerBox.SetActive(false);
         timeUntilDay.SetActive(false);
         fire.SetActive(false);
-
+        plainBlack.SetActive(true);
     }
 
     // Update is called once per frame
@@ -366,11 +372,12 @@ public class GameManager : MonoBehaviour
     {
         if (backstoryScriptStarted == false)
         {
-            textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] {"The world's farms have been plagued by a disease.", "It all started when the soil ran out of nutrients.", "People had been planting the same crops year after year. Those crops kept taking the same nutrients from the soil without putting anything in.", "After a while, there wasn't anything left in the ground for new plants to use.", "To fight this, new kinds of supercharged fertilizers and pesticides were invented. Everyone loved them and farms everywhere started using them.", "They claimed to make plants grow extra fast and healthy and strong. It was an attempt that came from good intentions.", "Instead, they turned everyone's crops mutated. Weird green growths appeared on the plants, and they turned sickly.", "Worse, it was contagious. The disease spread fast, leaving normal farms unusable and millions hungry. It turned into a widespread famine.", "People tried different tactics to fight the hunger. Some of them tried moving away from normal farms to grow their own plants.", "Some of them tried experimenting with different products to see which ones were the best- of course, none of them were completely clean, but some were less harmful than others.", "At some point, a group of starving people discovered a small patch in the forest.", "It was healthy and untouched by the disease. There wasn't enough space to farm there, but there was a river with fish in it. So the people decided to live there.", "For the past month, they had been catching fish and sending it back to the city in an attempt to feed people. Everything had been working great. So far." }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic" }, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+            textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] {"The world's farms have been plagued by a disease.", "It all started when the soil ran out of nutrients.", "People had been planting the same crops year after year. Those crops kept taking the same nutrients from the soil without putting anything in.", "After a while, there wasn't anything left in the ground for new plants to use.", "To fight this, new kinds of supercharged fertilizers and pesticides were invented. Everyone loved them and farms everywhere started using them.", "They claimed to make plants grow extra fast and healthy and strong. It was an attempt that came from good intentions.", "Instead, they turned everyone's crops mutated. Weird green growths appeared on the plants, and they turned sickly.", "Worse, it was contagious. The disease spread fast, leaving normal farms unusable and millions hungry. It turned into a widespread famine.", "People tried different tactics to fight the hunger. Some of them tried moving away from normal farms to grow their own plants.", "Some of them tried experimenting with different products to see which ones were the best- of course, none of them were completely clean, but some were less harmful than others.", "At some point, a group of starving people discovered a small patch in the forest.", "It was healthy and untouched by the disease. There wasn't enough space to farm there, but there was a river with fish in it. So the people decided to live there.", "For the past month, they had been catching fish and sending it back to the city in an attempt to feed people. Everything had been working great. So far." }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic" }, new int[] {0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 11, 11, 11});
             backstoryScriptStarted = true;
         }
         if (textTriggerScript.sequenceDialogue == null)
         {
+            plainBlack.SetActive(false);
             currentState = GameState.lvl001;
         }
 
@@ -530,6 +537,7 @@ public class GameManager : MonoBehaviour
 
         if (CountDownTimer(0, 3, 0) == "over")
         {
+            textTriggerScript.StopAllDialogue();
             currentState = GameState.lvl006;
         }
         
@@ -554,6 +562,7 @@ public class GameManager : MonoBehaviour
                 retryButton.SetActive(false);
                 newspaperImage.sprite = newspaperSprites[0];
                 newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
             } else
             {
                 pass.SetActive(false);
@@ -562,6 +571,7 @@ public class GameManager : MonoBehaviour
                 retryButton.SetActive(true);
                 newspaperImage.sprite = newspaperSprites[0];
                 newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
             }
             riverScript.CloseFishingWindowAndClearFish();
             mainNewspaperGameObject.SetActive(true);
@@ -679,8 +689,41 @@ public class GameManager : MonoBehaviour
             objective.text = "Go visit dad.";
             textTriggerScript.StopAllDialogue();
 
-            
-            
+
+
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 6)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[1];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[1];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
+
+
+
+
             setLevel9 = true;
         }
 
@@ -705,8 +748,15 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel10 == false)
         {
+
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
             textTriggerScript.ScriptTriggered(new string[] {"Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi" }, new string[] {"Hey, kiddo. How was your day?", "It was okay. I caught a lot of fish, I think.", "That's good. We got the newspaper today. Apparently, the farm up the river has been testing a new kind of chemical fertilizer on their plants. We think it's running into our water and hurting the fish.", "Are we going to do anything to stop it?", "We're sending a few of our people out to talk to them tomorrow.", "That's good.", "........Heidi, just remember, the fish disease might not get better soon. We should try to stock up on fish, it would be good to have it in storage just in case anything bad happens.", "Okay. I'm going to sleep now, Dad. Good night." }, true, new string[] {"Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right"}, new int[] { 2, 3, 5, 9, 3, 4, 7, 1});
             tentBg.SetActive(true);
+
+
+
             setLevel10 = true;
         }
 
@@ -779,6 +829,38 @@ public class GameManager : MonoBehaviour
             volume.profile = normalNight1;
             objective.text = "It's time to eat dinner. Go visit dad.";
             textTriggerScript.StopAllDialogue();
+
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 7)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[2];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[2];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
+
+
             setLevel12 = true;
         }
 
@@ -804,6 +886,9 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel13 == false)
         {
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
             tentBg.SetActive(true);
             textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad" }, new string[] { "Here, have some fish. We might have to start rationing soon. Don't wanna eat all the fish and leave nothing for all those poor souls we're supposed to be feeding.", "Did we talk to the farming village up there?", "Yup, visited them yesterday.", "...It's like we suspected. The chemicals they're testing- fertilizer, pesticides- seem to be getting into our water. They're not dumping it on purpose, but there's still runoff.", "WHY are they still testing chemicals. We already know those are bad?", "Chemicals are harmful. But those people are probably hungry.", "We can't ask them to stop using their bad fertilizer?", "We can't ask them to starve, can we?", "The famine is getting worse, so they're just going to have to keep using fertilizers. And our fish is getting worse by the day too.", "What are we going to do if there's no more good fish left here?", "I'm sure there'll be some other work we can do. Maybe go back to the city.", "But there's no food there.", "...We'll figure it out, kiddo. Go to your tent, now. Hurry, before it starts raining.", "Raining?", "Yes, it's scheduled to rain tonight. Go now. Good night, kiddo." }, true, new string[] { "Left", "Right", "Left", "Left", "Right", "Left", "Right", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left" }, new int[] { 7, 8, 5, 6, 6, 1,9, 3, 4, 4, 3, 5, 2, 4, 3 });
 
@@ -877,9 +962,43 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel15 == false)
         {
+
+
+
             textTriggerScript.StopAllDialogue();
             volume.profile = redSkiesEvening;
             objective.text = "We're visiting the farmers upstream! Go talk to dad!";
+
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 8)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[3];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[3];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
+
             setLevel15 = true;
         }
 
@@ -910,8 +1029,12 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel16 == false)
         {
-            tentBg.SetActive(true);
-            textTriggerScript.ScriptTriggered(new string[] { "", "Dev", "Farmer", "Dev", "Farmer", "Dev", "Farmer", "Farmer", "Dev" }, new string[] {"[After a short while of hiking up the mountain, you arrive at the farming village. One of your group's members steps up to talk to one of theirs.]", "Good evening.", "You're back again? What is it this time? We're not getting rid of our fertilizer. Our people are going hungry-", "Woah. Okay. But could we make a request?", "...What?", "Can you not use chemicals right before it rains? The rain is making it wash off into our river more.", "................", "Fine. But that's the only compromise we're doing.", "Thank you so much. Come on, guys, let's go." }, true, new string[] { "None", "Left", "Left", "Left", "Left", "Left", "Left", "Left", "Left" }, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0 });
+
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
+            farmBg.SetActive(true);
+            textTriggerScript.ScriptTriggered(new string[] { "", "Dev", "Farmer", "Dev", "Farmer", "Dev", "Farmer", "Farmer", "Dev" }, new string[] {"[After a short while of hiking up the mountain, you arrive at the farming village. One of your group's members steps up to talk to one of theirs.]", "Good evening.", "You're back again? What is it this time? We're not getting rid of our fertilizer. Our people are going hungry-", "Woah. Okay. But could we make a request?", "...What?", "Can you not use chemicals right before it rains? The rain is making it wash off into our river more.", "................", "Fine. But that's the only compromise we're doing.", "Thank you so much. Come on, guys, let's go." }, true, new string[] { "None", "Left", "Left", "Left", "Left", "Left", "Left", "Left", "Left" }, new int[] {0, 16, 17, 12, 20, 14, 22, 18, 11 });
             setLevel16 = true;
         }
 
@@ -942,9 +1065,40 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel17 == false)
         {
-            tentBg.SetActive(false);
+            farmBg.SetActive(false);
             volume.profile = normalNight1;
-            objective.text = "Tell your dad good night before you go to sleep.";
+            objective.text = "Tell your dad good night before you go to sleep."; // THERES NOT SUPPOSED TO BE A NEWSPAPER HERE BRH
+
+            /*
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 10)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[0];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[0];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+            */
+
             setLevel17 = true;
         }
 
@@ -971,6 +1125,9 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel18 == false)
         {
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
             riverScript.GameDifficultyFromZeroToSeven = 5;
             volume.profile = redDay1;
             objective.text = "Tell your dad good morning.";
@@ -1014,6 +1171,35 @@ public class GameManager : MonoBehaviour
             volume.profile = normalNight1;
             objective.text = "Go eat dinner with your dad.";
 
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 8)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[4];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[4];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
             setLevel19 = true;
         } 
 
@@ -1042,6 +1228,10 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel20 == false)
         {
+
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
             tentBg.SetActive(true);
             textTriggerScript.ScriptTriggered(new string[] { "Heidi", "Dad", "Heidi", "Dad", "Dad", "Heidi", "Dad", "Dad", "Heidi", "Dad" }, new string[] {"Dad, the fish is getting worse.", "I know, Heidi. It IS getting worse.", "Did we find a solution?", "Well, we're going to try something.", "Tomorrow a bunch of us are going to plant shrubs and things on the edge of the river where the chemicals are getting in.", "How's that going to help?", "The plants' roots are going to form a kind of shield in the soil. They'll trap the excess fertilizer before it can get into the river.", "At least, that's the plan. We don't know how helpful it's going to be.", "Can I come with you?", "Yes, of course. Go to bed now, we're leaving early."}, true, new string[] { "Right", "Left", "Right", "Left", "Left", "Right", "Left", "Left", "Right", "Left" }, new int[] { 4, 2, 9, 7, 5, 1, 3, 7, 2, 1 });
             setLevel20 = true;
@@ -1064,7 +1254,7 @@ public class GameManager : MonoBehaviour
             tentBg.SetActive(false);
             volume.profile = redDay1;
             // at this point js get the text to do the whole story thing
-            textTriggerScript.ScriptTriggered(new string[] {"", "", "", "", "", "", "", "", "" }, new string[] {"[The next morning.]", "[You walk with your dad and a few more people from your camp. You travel through the cold forest.]", "[It's hard not to notice the air being red with pollution.]", "[Or the plants on the ground being dead and diseased with the infection.]", "[Occasionally, you even spot a few wild animals, all of them similarly diseased. The forest looks bleak.]", "[Eventually, you make it to the edge of the river, just outside the farming settlement.]", "[You and your villagers spend the whole day hard at work planting shrubs on the edge of it.]", "[Eventually, the job gets done.]", "[And you leave to go back to camp.]" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic"}, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1});
+            textTriggerScript.ScriptTriggered(new string[] {"", "", "", "", "", "", "", "", "" }, new string[] {"[The next morning.]", "[You walk with your dad and a few more people from your camp. You travel through the cold forest.]", "[It's hard not to notice the air being red with pollution.]", "[Or the plants on the ground being dead and diseased with the infection.]", "[Occasionally, you even spot a few wild animals, all of them similarly diseased. The forest looks bleak.]", "[Eventually, you make it to the edge of the river, just outside the farming settlement.]", "[You and your villagers spend the whole day hard at work planting shrubs on the edge of it.]", "[Eventually, the job gets done.]", "[And you leave to go back to camp.]" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic"}, new int[] {9, 9, 9, 9, 9, 9, 9, 9, 9});
 
             setLevel21 = true;
         }
@@ -1097,6 +1287,7 @@ public class GameManager : MonoBehaviour
 
         if (CountDownTimer(2, 0, 0) == "over")
         {
+            textTriggerScript.StopAllDialogue();
             currentState = GameState.lvl023;
         }
     }
@@ -1108,6 +1299,37 @@ public class GameManager : MonoBehaviour
             
             volume.profile = normalNight1;
             objective.text = "Go eat dinner with your dad..";
+
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 8)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[5];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[5];
+                newspaperAnimate.SetTrigger("NewspaperIn"); 
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
+
             setLevel23 = true;
         }
 
@@ -1133,6 +1355,10 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel24 == false)
         {
+
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
             tentBg.SetActive(true);
             textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Heidi", "Dad", "Heidi" }, new string[] {"How was your day, Heidi?", "It's getting really hard to catch the fish. And I think the air is getting worse.", "...Yeah.", "........", "I'm going to be honest, Heidi. At the rate things are going, we might not be able to keep fishing.", "But people depend on us for food! We depend on OURSELVES for food!", "There's no food here anymore. We're better off finding someplace else.", "But...", "...........", "Heidi, listen. We'll think about it and then decide, okay? Let's just go to sleep for now.", "...Okay. Good night."}, true, new string[] { "Left", "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Right", "Left", "Right" }, new int[] { 1, 7, 4, 7, 5, 6, 4, 9, 5, 7, 8 });
             setLevel24 = true;
@@ -1193,6 +1419,37 @@ public class GameManager : MonoBehaviour
         {
             volume.profile = normalNight1;
             objective.text = "Go talk to dad.";
+
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 8)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[6];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[6];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
+
             setLevel26 = true;
         }
         
@@ -1220,6 +1477,10 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel27 == false)
         {
+
+            timesUpFish.SetActive(false);
+            mainNewspaperGameObject.SetActive(false);
+
             tentBg.SetActive(true);
             textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Heidi", "Dad", "Heidi", "Dad" }, new string[] {"Heidi. It's getting worse. We should leave tomorrow. A few others are talking about leaving, too.", "But...! We're not going to try to save the fish? Or the forest animals?", "I don't think they can be saved. Not unless the farmers quit it with the pesticides and fertilizers.", "But they're never going to do that!", "That's right. The farmers have to feed themselves, too. It would have been nice if they could do it a little more sustainably, but...", "...............", "I want to go on a walk.", "It can't wait until the morning, bud?", "No. Can I go on a walk now? Please?", "...Alright... Be safe."}, true, new string[] { "Left", "Right", "Left", "Right", "Left", "Right", "Right", "Left", "Right", "Left" }, new int[] { 5, 6, 7, 9, 1, 6, 7, 5, 4, 7 });
             setLevel27 = true;
@@ -1232,9 +1493,14 @@ public class GameManager : MonoBehaviour
                 finishedTalkingLevel27 = true;
             }
 
-            if (finishedTalkingLevel27 == true && startedStoryLevel27 == false) { 
+            if (finishedTalkingLevel27 == true && startedStoryLevel27 == false) {
+                
+                woodsBg.SetActive(true);
+                tentBg.SetActive(false);
+                
                 // at this point make the farming background show 
-                textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] { "[You walk alongside the river through the trees of the forest. Everything is just as bleak as you remember.]", "[After a while of walking, you end up back at the spot where you and the others had grown the shrubs.]", "[Walking closer, you noticed something, though.]", "[There was a plant. One that was healthy and fresh. Uninfected.]", "[You saw it was growing from the fish scraps you'd left behind from your lunch.]", "[That was interesting. How was it growing without any fertilizer?]", "[Then you realized something. The fish WAS the fertilizer.]", "[That made sense, of course- the fish would have nutrients in it that the plants could use to grow.]", "[You looked up. The village of farmers was just across the river and you could easily show them. You eagerly ran to them.]", "Hey... you're that child from the fishers. What are you doing here, kid?", "I found a fertilizer!!! I found something you can use that's not chemicals!!!", "...What are you talking about?", "Look! It's in the forest! I'll show you!" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Left", "Right", "Left", "Right" }, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 3});
+                
+                textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] { "[You walk alongside the river through the trees of the forest. Everything is just as bleak as you remember.]", "[After a while of walking, you end up back at the spot where you and the others had grown the shrubs.]", "[Walking closer, you noticed something, though.]", "[There was a plant. One that was healthy and fresh. Uninfected.]", "[You saw it was growing from the fish scraps you'd left behind from your lunch.]", "[That was interesting. How was it growing without any fertilizer?]", "[Then you realized something. The fish WAS the fertilizer.]", "[That made sense, of course- the fish would have nutrients in it that the plants could use to grow.]", "[You looked up. The village of farmers was just across the river and you could easily show them. You eagerly ran to them.]", "Hey... you're that child from the fishers. What are you doing here, kid?", "I found a fertilizer!!! I found something you can use that's not chemicals!!!", "...What are you talking about?", "Look! It's in the forest! I'll show you!" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Left", "Right", "Left", "Right" }, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 2, 22, 1});
                 startedStoryLevel27 = true;
             }
 
@@ -1242,8 +1508,10 @@ public class GameManager : MonoBehaviour
             {
                 if (textTriggerScript.sequenceDialogue == null && finishedStoryLevel27 == false)
                 {
+                    farmBg.SetActive(true);
+                    woodsBg.SetActive(false);
                     // at this point i guess make the background the plant in the forest again
-                    textTriggerScript.ScriptTriggered(new string[] { "Farmer", "Heidi", "Farmer", "Farmer", "Farmer", "Heidi", "Farmer", "Heidi", "Farmer", "Heidi", "Farmer", "Heidi", "" }, new string[] {"What... is this?", "Look! It's a healthy plant.", "Healthy?? No way, that's impossi-", "......................", "...How did you grow this?", "It grew from the fish!!", "This is... amazing. Fish scraps can be used as a fertilizer, then?", "Yes!!!! You can use them if you want!! I think it'll be useful for your plants!!", "...I don't suppose you're going to give us your fish so we can use it?", "I WILL give you my fish! But two conditions. You have to promise not to use any more chemicals. And allllll the extra food you need to give to hungry people back at the city.", ".........We'll test out your fish scraps fertilizer theory and then let you know.", "Okay!!!", "[They leave. Heidi goes home.]" }, true, new string[] { "Left", "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right", "None" }, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+                    textTriggerScript.ScriptTriggered(new string[] { "Farmer", "Heidi", "Farmer", "Farmer", "Farmer", "Heidi", "Farmer", "Heidi", "Farmer", "Heidi", "Farmer", "Heidi", "" }, new string[] {"What... is this?", "Look! It's a healthy plant.", "Healthy?? No way, that's impossible. We haven't seen 'healthy' in yeeaars-", "......................", "...How did you grow this?", "It grew from the fish!!", "This is... amazing. Fish scraps can be used as a fertilizer, then?", "Yes!!!! You can use them if you want!! I think it'll be useful for your plants!!", "...I don't suppose you're going to give us your fish so we can use it?", "I WILL give you my fish! But two conditions. You have to promise not to use any more chemicals. And allllll the extra food you need to give to hungry people back at the city.", ".........We'll test out your fish scraps fertilizer theory and then let you know.", "Okay!!!", "[They leave. Heidi goes home.]" }, true, new string[] { "Left", "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "Right", "None" }, new int[] { 20, 2, 19, 21, 22, 2, 21, 1, 24, 1, 23, 2, 0 });
                     finishedStoryLevel27 = true;
                 }
             }
@@ -1266,7 +1534,8 @@ public class GameManager : MonoBehaviour
     {
         if (setLevel28 == false)
         {
-            tentBg.SetActive(false);
+            woodsBg.SetActive(false);
+            farmBg.SetActive(false);
             volume.profile = normalDay1;
             objective.text = "You did it! Talk to your dad and then catch fish!";
 
@@ -1280,6 +1549,35 @@ public class GameManager : MonoBehaviour
 
         if (CountDownTimer(2, 3, 0) == "over")
         {
+
+            //newsaper stuff
+            timesUpFish.SetActive(true);
+            mainNewspaperGameObject.SetActive(true);
+            timesUpAnimate.SetTrigger("TimesUp");
+            playerScript.canProceedAfterNewspaper = false;
+            if (riverScript.fishiesCaughtNumber >= 1)
+            {
+                pass.SetActive(true);
+                fail.SetActive(false);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[7];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            else
+            {
+                pass.SetActive(false);
+                fail.SetActive(true);
+                nextButton.SetActive(true);
+                retryButton.SetActive(true);
+                newspaperImage.sprite = newspaperSprites[7];
+                newspaperAnimate.SetTrigger("NewspaperIn");
+                newspaperFishCaught.text = riverScript.fishiesCaughtNumber + "";
+            }
+            riverScript.CloseFishingWindowAndClearFish();
+            mainNewspaperGameObject.SetActive(true);
+
             currentState = GameState.lvl029;
         }
     }
@@ -1289,6 +1587,7 @@ public class GameManager : MonoBehaviour
         if (pressedTheFinalOkButton == true) { 
             if (setLevel29 == false)
             {
+
                 textTriggerScript.ScriptTriggered(new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, new string[] {"[Over the next few weeks, the fish scraps idea really did become popular.]", "[Many farms took up the fertilizer idea and many more people went out to go fishing. Farms began importing the natural fertilizer instead of chemicals with side effects.]", "[People learned other ways to stop runoff too- don't put fertilizer or pesticide on your crops right before it rains, and grow more plants along the edge of your fields to trap the runoff.]", "[They also figured out more things. For example, crop rotation. It's when you plant different kinds of crops each year.]", "[Crop rotation makes sure that one kind of plant doesn't just drain one kind of nutrient out of the soil. It makes the environment healthy and reduces need for fertilizer.]", "[In the end, the fish came back to life too, healthy and happy. And the forest animals that depended on the fish for food were also healthy and happy.]", "[In fact, the whole ecosystem was happy. And Heidi was happy too.]", "[When the food crisis finally calmed down, Heidi got to move back to the city where she hanged out with her friends and went to school. She got to play and learn instead of fishing and working.]", "[...Sadly, though, in the real world, the truth is that many people- including children- who suffer from food insecurity can't play or learn.]", "[They have to go work, either in the fields or just normal jobs, so that their family can have money for/or food.]", "[In fact, [statistic]", "[But one way to help start fighting that- and our environmental pollution problem- is by practicing sustainable farming.]", "[When you grow plants in your home or school or community garden, think about if you're being sustainable. What's in your fertilizers and pesticides? Is there a less harmful substitute you can use?]", "[And as a bonus, if you have extra food, you might even want to consider donating some to help people in need!]", "[Practicing sustainable farming is an easy way to help make our world better.]", "[That's the lesson Heidi learned. And so she lived happily ever after.]" }, true, new string[] { "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic", "Cinematic" }, new int[] { 1, 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1, 1, 1, 1, 1, 1 });
                 setLevel29 = true;
             }
@@ -1384,11 +1683,126 @@ public class GameManager : MonoBehaviour
     public void NextButton()
     {
         newspaperAnimate.SetTrigger("NewspaperOut");
+
+        if (currentState == GameState.lvl028 || currentState == GameState.lvl029)
+        {
+            pressedTheFinalOkButton = true;
+        }
+
     }
 
     public void RetryButton()
     {
         newspaperAnimate.SetTrigger("NewspaperOut");
+
+        if (currentState == GameState.lvl009 || currentState == GameState.lvl010)
+        {
+
+            setLevel8 = false;
+            startedTalkingLevel8 = false;
+            finishedTalkingLevel8 = false;
+            playerScript.setLevelEight = false;
+            setLevel9 = false;
+            startedTalkingLevel9 = false;
+            finishedTalkingLevel9 = false;
+            setLevel10 = false;
+            finishedTalkingLevel10 = false;
+            currentState = GameState.lvl008;
+        }
+
+        if (currentState == GameState.lvl012 || currentState == GameState.lvl013)
+        {
+            setLevel11 = false;
+            startedTalkingLevel11 = false;
+            finishedTalkingLevel11 = false;
+            playerScript.setLevel11 = false;
+            setLevel12 = false;
+            startedTalkingLevel12 = false;
+            finishedTalkingLevel12 = false;
+            setLevel13 = false;
+            startedTalkingLevel13 = false;
+            finishedTalkingLevel13 = false;
+            currentState = GameState.lvl011;
+        }
+
+        if (currentState == GameState.lvl015 || currentState == GameState.lvl016)
+        {
+            setLevel14 = false;
+            startedTalkingLevel14 = false;
+            finishedTalkingLevel14 = false;
+            playerScript.setLevel14 = false;
+            setLevel15 = false;
+            startedTalkingLevel15 = false;
+            finishedTalkingLevel15 = false;
+            setLevel16 = false;
+            startedTalkingLevel16 = false;
+            finishedTalkingLevel16 = false;
+            currentState = GameState.lvl014;
+        }
+
+        if (currentState == GameState.lvl019 || currentState == GameState.lvl020)
+        {
+            setLevel18 = false;
+            startedTalkingLevel18 = false;
+            finishedTalkingLevel18 = false;
+            playerScript.setLevel18 = false;
+            setLevel19 = false;
+            startedTalkingLevel19 = false;
+            finishedTalkingLevel19 = false;
+            setLevel20 = false;
+            startedTalkingLevel20 = false;
+            finishedTalkingLevel20 = false;
+            currentState = GameState.lvl018;
+        }
+
+        if (currentState == GameState.lvl023 || currentState == GameState.lvl024)
+        {
+            setLevel22 = false;
+            startedTalkingLevel22 = false;
+            finishedTalkingLevel22 = false;
+            playerScript.setLevel22 = false;
+            setLevel23 = false;
+            startedTalkingLevel23 = false;
+            finishedTalkingLevel23 = false;
+            setLevel24 = false;
+            startedTalkingLevel24 = false;
+            finishedTalkingLevel24 = false;
+            currentState = GameState.lvl022;
+        }
+
+
+        if (currentState == GameState.lvl026 || currentState == GameState.lvl027)
+        {
+            setLevel25 = false;
+            startedTalkingLevel25 = false;
+            finishedTalkingLevel25 = false;
+            playerScript.setLevel25 = false;
+            setLevel26 = false;
+            startedTalkingLevel26 = false;
+            finishedTalkingLevel26 = false;
+            setLevel27 = false;
+            startedTalkingLevel27 = false;
+            finishedTalkingLevel27 = false;
+            currentState = GameState.lvl025;
+        }
+
+
+        if (currentState == GameState.lvl028 || currentState == GameState.lvl029)
+        {
+            setLevel27 = false;
+            startedTalkingLevel27 = false;
+            finishedTalkingLevel27 = false;
+            startedStoryLevel27 = false;
+            finishedStoryLevel27 = false;
+            setLevel28 = false;
+            startedTalkingLevel28 = false;
+            finishedTalkingLevel28 = false;
+            playerScript.setLevel28 = false;
+            
+            currentState = GameState.lvl027;
+            currentState = GameState.lvl028;
+        }
+
     }
 
 }

@@ -251,6 +251,15 @@ public class RiverScript : IInteractable
                     tile.enabled = false;
                 }
             }
+
+            //changes i just made
+            allButtons.SetActive(false);
+            for (int i = 0; i < 16; i++)
+            {
+                buttonsPressed[i] = 0;
+            }
+
+
         }
 
         Debug.Log(percentChanceOfDisease);
@@ -281,6 +290,12 @@ public class RiverScript : IInteractable
 
         yield return new WaitForSeconds(0.2f);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+        //changes i just made
+        allButtons.SetActive(false);
+        for (int i = 0; i < 16; i++)
+        {
+            buttonsPressed[i] = 0;
+        }
         water.enabled = false;
         orangeOutline.enabled = false;
         //fishPicture.enabled = false;
@@ -641,6 +656,12 @@ public class RiverScript : IInteractable
 
         fishiesCaughtNumber = 00;
         fishiesCaught.text = "00";
+
+        allButtons.SetActive(false);
+        for (int i = 0; i < 16; i++)
+        {
+            buttonsPressed[i] = 0;
+        }
 
     }
 

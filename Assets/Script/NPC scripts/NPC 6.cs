@@ -62,7 +62,7 @@ public class NPC6 : MonoBehaviour
 
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Ellie", "Ellie", "Leo", "Eve", "Ellie", "" }, new string[] { "There's something... with this fish.", "Why does it look like this?", "That... is odd...", "It's probably just sick. Throw it back into the water.", "Oh, poor thing. Okay.", "[Everyone scatters again.]" }, true, new string[] { "Left", "Left", "Left", "Left", "Left", "None" }, new int[] { 0, 0, 0, 0, 0, 0 });
+                textTriggerScript.ScriptTriggered(new string[] { "Ellie", "Ellie", "Dev", "Dev", "Ellie", "" }, new string[] { "There's something... with this fish.", "Why does it look like this? It's almost like the same disease from the plants.", "That... is odd... you're right, it does look like the plant disease.", "It's probably just a one-time occurence. Throw it back into the water.", "Oh, I hope it's a one time occurence. Okay.", "[Everyone scatters again.]" }, true, new string[] { "Left", "Left", "Left", "Left", "Left", "None" }, new int[] { 8, 9, 13, 15, 8, 0 });
 
             }
         }
@@ -75,6 +75,11 @@ public class NPC6 : MonoBehaviour
                 textTriggerScript.ScriptTriggered(new string[] { "Ellie", "Ellie", "Leo", "Eve", "Ellie", "" }, new string[] { "There's something... with this fish.", "Why does it look like this?", "That... is odd...", "It's probably just sick. Throw it back into the water.", "Oh, poor thing. Okay.", "[Everyone scatters again.]" }, true, new string[] { "Left", "Left", "Left", "Left", "Left", "None" }, new int[] { 0, 0, 0, 0, 0, 0 });
                 
             }
+
+        }
+        else if (gameManager.currentState == GameManager.GameState.lvl006)
+        {
+            canInteract = false;
 
         }
 

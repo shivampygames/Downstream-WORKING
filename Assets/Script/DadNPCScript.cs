@@ -34,7 +34,7 @@ public class DadNPCScript : MonoBehaviour
 
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad" }, new string[] { "Good morning, kiddo. Did you sleep well?", "Yeah I did!", "That's good, bud.", "How about helping us catch some fish? We can eat breakfast after." }, true, new string[] { "Left", "Right", "Left", "Left" }, new int[] { 1, 1, 3, 2 });
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "Heidi", "Dad", "Dad", "" }, new string[] { "Good morning, kiddo. Did you sleep well?", "Yeah I did!", "That's good, bud.", "How about helping us catch some fish? We can eat breakfast after.", "<color=#E55735>((FACT: Approximately 10-12% of our world's population depends on aquaculture (fishing) for their livelihoods. In some low-income coastal regions, fishing is the primary economic activity and a critical tool for poverty reduction.))</color>" }, true, new string[] { "Left", "Right", "Left", "Left", "None" }, new int[] { 1, 1, 3, 2, 0 });
             }
 
         } else if (gameManager.currentState == GameManager.GameState.lvl002andahalf)
@@ -82,7 +82,7 @@ public class DadNPCScript : MonoBehaviour
         {
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Heidi", "Dad", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "" }, new string[] {"Morning Dad!", "Hey, kiddo.", "...I have news.", "Everyone's been out fishing since this morning. And... we're finding a lot more cases of... fish with the disease... since we started today.", "How is it spreading to the fish?", "That's what we're trying to find out. Why don't you go and try to catch some fish for now? I'll keep you updated.", "OK.", "Alright, kiddo. Just ... it might be harder than it's been so far, since some of the fish are diseased. But I know you're doing your best, no matter what.", "Yes, Dad. I won't let anyone in that city starve.", "...Oh. You know that's not your burden to worry about, Heidi-", "[You left.]" }, true, new string[] { "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "None" }, new int[] { 2, 1, 4, 5, 4, 7, 8, 3, 4, 6, 0 });
+                textTriggerScript.ScriptTriggered(new string[] { "Heidi", "Dad", "Dad", "Dad", "Heidi", "Dad", "Heidi", "Dad", "Heidi", "Dad", "" }, new string[] {"Morning Dad!", "Hey, kiddo.", "...I have news.", "Everyone's been out fishing since this morning. And... there have been lots of fish with the disease... since we started today.", "How is it spreading to more fish?", "That's what we're trying to find out. Why don't you go and try to catch some fish for now? I'll keep you updated.", "OK.", "Alright, kiddo. Just ... it might be harder than it's been so far, since some of the fish are diseased. But I know you're doing your best, no matter what.", "Yes, Dad. I won't let anyone in that city starve.", "...Oh. You know that's not your burden to worry about, Heidi-", "[You left.]", "<color=#E55735>((FACT: When animals get contaminated with chemicals, it affects the rest of the food web and the rest of the ecosystem.</color>", "<color=#E55735>Bioaccumulation is when animals absorb a lot of chemicals into their bodies.  </color>" }, true, new string[] { "Right", "Left", "Left", "Left", "Right", "Left", "Right", "Left", "Right", "Left", "None" }, new int[] { 2, 1, 4, 5, 4, 7, 8, 3, 4, 6, 0 });
             }
         } else if (gameManager.currentState == GameManager.GameState.lvl009)
         {
@@ -97,7 +97,7 @@ public class DadNPCScript : MonoBehaviour
         {
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                textTriggerScript.ScriptTriggered(new string[] { "Dad", "", "Dad", "Dad", "", "", "Dad", "Heidi", "Dad" }, new string[] { "Hi, Heidi! Good morn-", "[there's a rustling in the bushes.]", "........", "Woah! That's-", "[A huge, unnaturally white-haired deer lifts its head. It looks to be covered in the same disease as the fish was.]", "[It bounds away back into the forest, though there's a noticable limp to its run.]", "That was...", "Was that deer diseased too, Dad?", "It looks like it... I'll have to go tell the others about that now. Anyway, you did good yesterday. Make sure to keep trying to stock up on fish, kiddo."}, true, new string[] { "Left", "None", "Left", "Left", "None", "None", "Left", "Right", "Left" }, new int[] { 3, 0, 4, 6, 0, 0, 6, 5, 7});
+                textTriggerScript.ScriptTriggered(new string[] { "Dad", "", "Dad", "Dad", "", "", "Dad", "Heidi", "Dad" }, new string[] { "Hi, Heidi! Good morn-", "[there's a rustling in the bushes.]", "........", "Woah! That's-", "[A huge, unnaturally white-haired deer lifts its head. It looks to be covered in the same disease as the fish was.]", "[It bounds away back into the forest, though there's a noticable limp to its run.]", "That was...", "Was that deer diseased too, Dad?", "It looks like it... I'll have to go tell the others about that now. Anyway, you did good yesterday. Make sure to keep trying to stock up on fish, kiddo."}, true, new string[] { "Left", "None", "Left", "Left", "Left", "Left", "Left", "Right", "Left" }, new int[] { 3, 0, 4, 6, 10, 10, 6, 5, 7});
             }
         } else if (gameManager.currentState == GameManager.GameState.lvl012)
         {
@@ -137,6 +137,12 @@ public class DadNPCScript : MonoBehaviour
             if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
             {
                 textTriggerScript.ScriptTriggered(new string[] { "Dad" }, new string[] { "Come in, Heidi, let's eat dinner." }, true, new string[] { "Left" }, new int[] { 1 });
+            }
+        } else if (gameManager.currentState == GameManager.GameState.lvl022)
+        {
+            if (playerInBoundsToInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                textTriggerScript.ScriptTriggered(new string[] { "Dad" }, new string[] { "I'm a bit busy. Go ahead n' keep fishing, bud." }, true, new string[] { "Left" }, new int[] { 1 });
             }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl023)

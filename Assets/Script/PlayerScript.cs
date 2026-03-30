@@ -14,14 +14,14 @@ public class PlayerScript : MonoBehaviour
     public GameManager gameManager;
 
     private bool setLevelOne = false;
-    private bool setLevelEight = false;
+    public bool setLevelEight = false;
     private bool controlsAreEnabled = true;
-    private bool setLevel11 = false;
-    private bool setLevel14 = false;
-    private bool setLevel18 = false;
-    private bool setLevel22 = false;
-    private bool setLevel28 = false;
-    private bool setLevel25 = false;
+    public bool setLevel11 = false;
+    public bool setLevel14 = false;
+    public bool setLevel18 = false;
+    public bool setLevel22 = false;
+    public bool setLevel28 = false;
+    public bool setLevel25 = false;
 
     public bool canProceedAfterNewspaper = false;
 
@@ -74,6 +74,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (canProceedAfterNewspaper == false)
             {
+                controls();
                 controlsAreEnabled = false;
                 vThirdPersonInput.enabled = false;
                 controlsAreEnabled = false;
@@ -107,7 +108,19 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl009)
         {
-            controls();
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl010)
         {
@@ -139,9 +152,19 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl012)
         {
-            controlsAreEnabled = true;
-            vThirdPersonInput.enabled = true;
-            controls();
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl013)
         {
@@ -165,9 +188,19 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl015)
         {
-            controlsAreEnabled = true;
-            vThirdPersonInput.enabled = true;
-            controls();
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl016)
         {
@@ -177,9 +210,25 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl017)
         {
+            /*
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
+            */
             controlsAreEnabled = true;
             vThirdPersonInput.enabled = true;
             controls();
+
         }
         else if (gameManager.currentState == GameManager.GameState.lvl018)
         {
@@ -198,9 +247,19 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl019)
         {
-            controlsAreEnabled = true;
-            vThirdPersonInput.enabled = true;
-            controls();
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl020)
         {
@@ -230,9 +289,19 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl023)
         {
-            controlsAreEnabled = true;
-            vThirdPersonInput.enabled = true;
-            controls();
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl023)
         {
@@ -262,9 +331,19 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl026)
         {
-            controlsAreEnabled = true;
-            vThirdPersonInput.enabled = true;
-            controls();
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
         }
         else if (gameManager.currentState == GameManager.GameState.lvl027)
         {
@@ -274,9 +353,12 @@ public class PlayerScript : MonoBehaviour
         }
         else if (gameManager.currentState == GameManager.GameState.lvl028)
         {
+            /*
             controlsAreEnabled = true;
             vThirdPersonInput.enabled = true;
             controls();
+            */
+
             if (setLevel28 == false)
             {
                 transform.position = new Vector3(-5.34f, 0, 13.383f);
@@ -284,6 +366,21 @@ public class PlayerScript : MonoBehaviour
                 transform.rotation = Quaternion.Euler((new Vector3(0, 0, 0)));
                 setLevel28 = true;
             }
+
+            if (canProceedAfterNewspaper == false)
+            {
+                controls();
+                controlsAreEnabled = false;
+                vThirdPersonInput.enabled = false;
+                controlsAreEnabled = false;
+            }
+            else
+            {
+                controlsAreEnabled = true;
+                vThirdPersonInput.enabled = true;
+                controls();
+            }
+
         }
 
         void controls()
